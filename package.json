@@ -1,0 +1,14 @@
+{
+  "name": "rpg-event-phase3",
+  "version": "1.0.0",
+  "description": "Node.js backend for the RPG Event Game",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "Meiraba",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "express": "^4.22.2"
+  }
+}

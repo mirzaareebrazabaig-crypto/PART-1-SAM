@@ -1,0 +1,1830 @@
+/* ==========================================
+   SAM'S BEDROOM: INTERACTIVE EXPERIENCE STYLES
+   ========================================== */
+
+/* --- Custom Variables & Reset --- */
+:root {
+    --bg-dark: #050508;
+    --text-light: #f5f5f7;
+    --text-muted: #8e8e93;
+    
+    /* Theme Age 5 (2010): Bright, Warm, Cozy Sunshine */
+    --age5-bg: #fff8f0;
+    --age5-wall: linear-gradient(180deg, #fdecd2 0%, #f7dcbb 100%);
+    --age5-floor: #d2a172;
+    --age5-baseboard: #966b43;
+    --age5-wood: #a07148;
+    --age5-carpet: #e76f51;
+    --age5-accent: #f4a261;
+    --age5-bedsheet: #ffffff;
+    --age5-blanket: #ff9f1c;
+    --age5-glow: rgba(244, 162, 97, 0.4);
+
+    /* Theme Age 10 (2015): Playful, Messy Game-Teal */
+    --age10-bg: #15161b;
+    --age10-wall: linear-gradient(180deg, #2b3a4a 0%, #1c2733 100%);
+    --age10-floor: #8a7055;
+    --age10-baseboard: #5a4735;
+    --age10-wood: #624e3c;
+    --age10-carpet: #0077b6;
+    --age10-accent: #00b4d8;
+    --age10-bedsheet: #eef1f6;
+    --age10-blanket: #2a9d8f;
+    --age10-glow: rgba(0, 180, 216, 0.4);
+
+    /* Theme Age 15 (2020): Moody, Heavy Slate-charcoal */
+    --age15-bg: #0b0c0f;
+    --age15-wall: linear-gradient(180deg, #181c24 0%, #0d0f13 100%);
+    --age15-floor: #4f4337;
+    --age15-baseboard: #2d261e;
+    --age15-wood: #332b22;
+    --age15-carpet: #3e4a5c;
+    --age15-accent: #5e6b7d;
+    --age15-bedsheet: #555555;
+    --age15-blanket: #283647;
+    --age15-glow: rgba(94, 107, 125, 0.4);
+
+    /* UI Globals */
+    --glass-bg: rgba(15, 15, 20, 0.85);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --glow-color: rgba(255, 200, 50, 0.85);
+    --transition-smooth: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+    background-color: var(--bg-dark);
+    color: var(--text-light);
+    overflow: hidden;
+    user-select: none;
+    -webkit-user-select: none;
+    width: 100vw;
+    height: 100vh;
+}
+
+/* --- Dark Theme Scrollbar --- */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+::-webkit-scrollbar-track {
+    background: rgba(10, 10, 15, 0.8);
+    border-radius: 5px;
+}
+::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 5px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.4);
+}
+
+/* --- Layout Structure --- */
+#app-container {
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    background: #000;
+}
+
+/* --- Sleek Header Navigation --- */
+#app-header {
+    height: 70px;
+    background: rgba(10, 10, 12, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--glass-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 30px;
+    z-index: 100;
+    position: relative;
+}
+
+#app-header h1 {
+    font-size: 1.25rem;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#room-age-indicator {
+    font-size: 0.85rem;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 3px 10px;
+    border-radius: 12px;
+    color: var(--text-muted);
+    font-weight: 400;
+}
+
+.timeline-tabs {
+    display: flex;
+    background: rgba(255, 255, 255, 0.03);
+    padding: 5px;
+    border-radius: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.timeline-tab {
+    background: transparent;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 20px;
+    color: var(--text-muted);
+    font-family: inherit;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: var(--transition-smooth);
+}
+
+.timeline-tab:hover {
+    color: var(--text-light);
+}
+
+.timeline-tab.active {
+    background: rgba(255, 255, 255, 0.12);
+    color: var(--text-light);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.tab-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: var(--text-muted);
+    transition: var(--transition-smooth);
+}
+
+.timeline-tab.active .tab-dot {
+    background-color: #ffd166;
+    box-shadow: 0 0 8px #ffd166;
+}
+
+.controls {
+    display: flex;
+    gap: 12px;
+}
+
+.control-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--glass-border);
+    color: var(--text-light);
+    border-radius: 20px;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: var(--transition-smooth);
+}
+
+.control-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+#btn-help {
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    justify-content: center;
+    border-radius: 50%;
+    font-weight: bold;
+}
+
+/* --- Viewport (Constrained Widescreen Room Layout Box) --- */
+#viewport {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    background-color: #030305;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+    padding-bottom: 125px; /* clear inventory bar (120px) */
+    box-sizing: border-box;
+}
+
+#room-layout-container {
+    width: 100%;
+    /* Dynamically shrink width on short screens to maintain 16/9 aspect ratio */
+    /* 100vh - 70px (header) - 10px (top padding) - 125px (bottom padding) = 205px */
+    max-width: min(1400px, calc((100vh - 205px) * 16 / 9));
+    aspect-ratio: 16/9;
+    position: relative;
+    border: 5px solid #1a1a24;
+    border-radius: 12px;
+    box-shadow: 0 35px 80px rgba(0,0,0,0.85);
+    overflow: hidden;
+}
+
+/* --- Room Canvas Core & Geometry --- */
+.room-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.8s ease-in-out, filter 0.8s ease-in-out;
+}
+
+.room-canvas.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Atmospheric Overlays */
+.room-canvas::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 5;
+}
+
+#canvas-age-5 {
+    background-color: var(--age5-bg);
+    filter: saturate(1.2) brightness(1.05);
+}
+#canvas-age-5::after {
+    background: radial-gradient(circle at 75% 25%, rgba(255, 235, 200, 0.4) 0%, rgba(255, 215, 170, 0.1) 60%, rgba(10, 5, 0, 0.15) 100%);
+}
+
+#canvas-age-10 {
+    background-color: var(--age10-bg);
+    filter: saturate(0.85) brightness(0.9);
+}
+#canvas-age-10::after {
+    background: radial-gradient(circle at 20% 50%, rgba(0, 180, 216, 0.15) 0%, rgba(10, 15, 25, 0.3) 60%, rgba(0, 0, 0, 0.5) 100%);
+}
+
+#canvas-age-15 {
+    background-color: var(--age15-bg);
+    filter: saturate(0.45) brightness(0.82) contrast(0.95);
+}
+#canvas-age-15::after {
+    background: radial-gradient(circle at 82% 48%, rgba(255, 180, 90, 0.2) 0%, rgba(10, 12, 15, 0.2) 50%, rgba(0, 0, 0, 0.5) 100%);
+}
+
+/* --- Architectural Walls & Floorboards (Drawn in CSS) --- */
+.wall-backdrop {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 72%;
+    z-index: 0;
+}
+#canvas-age-5 .wall-backdrop { background: var(--age5-wall); }
+#canvas-age-10 .wall-backdrop { background: var(--age10-wall); }
+#canvas-age-15 .wall-backdrop { background: var(--age15-wall); }
+
+.floor-backdrop {
+    position: absolute;
+    top: 72%; left: 0; width: 100%; height: 28%;
+    z-index: 1;
+    /* Diagonal floorboards lines */
+    background-size: 40px 100%;
+}
+#canvas-age-5 .floor-backdrop { 
+    background-color: var(--age5-floor);
+    background-image: linear-gradient(90deg, rgba(0,0,0,0.08) 1px, transparent 1px);
+    box-shadow: inset 0 15px 30px rgba(0,0,0,0.1);
+}
+#canvas-age-10 .floor-backdrop { 
+    background-color: var(--age10-floor);
+    background-image: linear-gradient(90deg, rgba(0,0,0,0.15) 1px, transparent 1px);
+    box-shadow: inset 0 15px 30px rgba(0,0,0,0.25);
+}
+#canvas-age-15 .floor-backdrop { 
+    background-color: var(--age15-floor);
+    background-image: linear-gradient(90deg, rgba(0,0,0,0.25) 1px, transparent 1px);
+    box-shadow: inset 0 15px 30px rgba(0,0,0,0.45);
+}
+
+.baseboard {
+    position: absolute;
+    top: 70.5%; left: 0; width: 100%; height: 1.5%;
+    z-index: 1;
+}
+#canvas-age-5 .baseboard { background: var(--age5-baseboard); border-bottom: 2px solid rgba(0,0,0,0.15); }
+#canvas-age-10 .baseboard { background: var(--age10-baseboard); border-bottom: 2px solid rgba(0,0,0,0.3); }
+#canvas-age-15 .baseboard { background: var(--age15-baseboard); border-bottom: 2px solid rgba(0,0,0,0.5); }
+
+/* Ceiling lamp casting soft glow down */
+.ceiling-lamp {
+    position: absolute;
+    top: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 140px;
+    height: 18px;
+    background: #eef1f6;
+    border-radius: 0 0 70px 70px;
+    z-index: 2;
+    box-shadow: 0 5px 15px rgba(255,255,255,0.2);
+}
+#canvas-age-15 .ceiling-lamp {
+    background: #555;
+    box-shadow: none;
+}
+
+/* ==========================================
+   CSS ILLUSTRATED FURNITURE PIECES
+   ========================================== */
+
+/* 1. Bed Frame, Sheets, Pillow & Blanket */
+.bed-container {
+    position: absolute;
+    left: 4%; top: 51%; width: 33%; height: 26%;
+    z-index: 2;
+}
+
+.bed-frame {
+    position: absolute;
+    bottom: 0; left: 0; width: 100%; height: 25%;
+    border-radius: 4px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+}
+#canvas-age-5 .bed-frame { background: var(--age5-wood); }
+#canvas-age-10 .bed-frame { background: var(--age10-wood); }
+#canvas-age-15 .bed-frame { background: var(--age15-wood); }
+
+.bed-sheet {
+    position: absolute;
+    top: 15%; left: 3%; width: 94%; height: 60%;
+    border-radius: 6px 6px 0 0;
+}
+#canvas-age-5 .bed-sheet { background: var(--age5-bedsheet); }
+#canvas-age-10 .bed-sheet { background: var(--age10-bedsheet); }
+#canvas-age-15 .bed-sheet { background: var(--age15-bedsheet); }
+
+.bed-blanket {
+    position: absolute;
+    top: 25%; right: 3%; width: 68%; height: 50%;
+    border-radius: 0 6px 0 0;
+}
+#canvas-age-5 .bed-blanket { background: var(--age5-blanket); }
+#canvas-age-10 .bed-blanket { background: var(--age10-blanket); clip-path: polygon(0 15%, 15% 5%, 100% 0, 100% 100%, 0 100%); }
+#canvas-age-15 .bed-blanket { background: var(--age15-blanket); }
+
+.bed-pillow {
+    position: absolute;
+    top: 22%; left: 8%; width: 22%; height: 35%;
+    background: #eef1f6;
+    border-radius: 8px;
+    border: 1px solid rgba(0,0,0,0.08);
+}
+#canvas-age-15 .bed-pillow { background: #666; border-color: #444; }
+
+/* 2. Desk, Drawers & rolling chair */
+.desk-container {
+    position: absolute;
+    right: 5%; top: 47%; width: 25%; height: 30%;
+    z-index: 2;
+}
+
+.desk-surface {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 10%;
+    border-radius: 4px;
+}
+#canvas-age-5 .desk-surface { background: var(--age5-wood); border-bottom: 3px solid #7a532d; }
+#canvas-age-10 .desk-surface { background: var(--age10-wood); border-bottom: 3px solid #4a3827; }
+#canvas-age-15 .desk-surface { background: var(--age15-wood); border-bottom: 3px solid #231c15; }
+
+.desk-drawer-block {
+    position: absolute;
+    top: 10%; left: 5%; width: 35%; height: 90%;
+    border-radius: 2px;
+}
+#canvas-age-5 .desk-drawer-block { background: #825c38; }
+#canvas-age-10 .desk-drawer-block { background: #523e2b; }
+#canvas-age-15 .desk-drawer-block { background: #28211a; }
+
+.desk-drawer-line {
+    width: 80%;
+    height: 3px;
+    background: rgba(0,0,0,0.25);
+    margin: 20px auto;
+    border-radius: 2px;
+}
+
+.desk-leg {
+    position: absolute;
+    top: 10%; right: 8%; width: 8%; height: 90%;
+}
+#canvas-age-5 .desk-leg { background: #825c38; }
+#canvas-age-10 .desk-leg { background: #523e2b; }
+#canvas-age-15 .desk-leg { background: #28211a; }
+
+.desk-chair {
+    position: absolute;
+    right: 21%; top: 52%; width: 10%; height: 26%;
+    z-index: 2;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 220'><rect x='20' y='20' width='60' height='70' fill='%230077b6' rx='8'/><rect x='15' y='100' width='70' height='10' fill='%230077b6' rx='4'/><rect x='45' y='110' width='10' height='70' fill='black'/><line x1='15' y1='180' x2='85' y2='180' stroke='black' stroke-width='8'/><circle cx='15' cy='190' r='8' fill='black'/><circle cx='85' cy='190' r='8' fill='black'/></svg>");
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+#canvas-age-5 .desk-chair {
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 220'><rect x='20' y='20' width='60' height='70' fill='%23e76f51' rx='8'/><rect x='15' y='100' width='70' height='10' fill='%23e76f51' rx='4'/><rect x='45' y='110' width='10' height='70' fill='black'/><line x1='15' y1='180' x2='85' y2='180' stroke='black' stroke-width='8'/></svg>");
+}
+#canvas-age-15 .desk-chair {
+    filter: saturate(0.2) brightness(0.6);
+}
+
+/* 3. Tall Shelf Cupboard on far-left wall */
+.shelf-container {
+    position: absolute;
+    left: 4%; top: 10%; width: 13%; height: 38%;
+    border-radius: 4px;
+    z-index: 2;
+    box-shadow: 5px 8px 20px rgba(0,0,0,0.3);
+}
+#canvas-age-5 .shelf-container { background: #8e5c38; border: 4px solid #aa7248; }
+#canvas-age-10 .shelf-container { background: #5a4735; border: 4px solid #735b44; }
+#canvas-age-15 .shelf-container { background: #231c15; border: 4px solid #332b22; }
+
+.shelf-line {
+    position: absolute;
+    left: 0; width: 100%; height: 8px;
+}
+#canvas-age-5 .shelf-line { background: #6a3e1c; }
+#canvas-age-10 .shelf-line { background: #423223; }
+#canvas-age-15 .shelf-line { background: #15110d; }
+.shelf-line.one { top: 30%; }
+.shelf-line.two { top: 65%; }
+
+/* Books inside shelf */
+.shelf-books-drawing {
+    position: absolute;
+    left: 10%; width: 80%; height: 26%;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 40'><rect x='5' y='5' width='10' height='35' fill='red'/><rect x='17' y='8' width='12' height='32' fill='blue'/><rect x='32' y='5' width='8' height='35' fill='green'/><rect x='43' y='12' width='22' height='28' fill='orange' transform='rotate(10 43 12)'/></svg>");
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+.shelf-books-drawing.row-1 { top: 3%; }
+.shelf-books-drawing.row-2 { top: 34%; }
+
+/* 4. TV Stand & Console */
+.tv-stand-container {
+    position: absolute;
+    left: 42%; top: 57%; width: 22%; height: 18%;
+    border-radius: 4px;
+    z-index: 2;
+}
+#canvas-age-5 .tv-stand-container { background: #b07d58; border-top: 5px solid #d29e79; }
+#canvas-age-10 .tv-stand-container { background: #5a4b3b; border-top: 5px solid #7c6a56; }
+#canvas-age-15 .tv-stand-container { background: #2b2b2b; border-top: 5px solid #444; }
+
+/* CRT TV Screen on Stand (Room 2) */
+.tv-crt-layout {
+    position: absolute;
+    left: 18%; top: -62%; width: 64%; height: 60%;
+    background: #2b2b2b;
+    border: 8px solid #1c1c1c;
+    border-radius: 12px;
+    box-shadow: 0 -8px 20px rgba(0,0,0,0.3);
+}
+
+.tv-crt-screen {
+    width: 100%; height: 100%;
+    background: #0d0d0f;
+    position: relative;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+/* 5. Center Round Carpet Rug on Floor */
+.floor-carpet {
+    position: absolute;
+    left: 50%; top: 74%; 
+    transform: translateX(-50%);
+    height: 18%; 
+    aspect-ratio: 2.2 / 1;
+    width: auto;
+    border-radius: 50%;
+    z-index: 1;
+    opacity: 0.85;
+}
+#canvas-age-5 .floor-carpet {
+    background: radial-gradient(circle, var(--age5-accent) 0%, var(--age5-carpet) 70%);
+    box-shadow: 0 4px 10px rgba(231,111,81,0.25);
+}
+#canvas-age-10 .floor-carpet {
+    background: radial-gradient(circle, var(--age10-accent) 0%, var(--age10-carpet) 70%);
+    box-shadow: 0 4px 10px rgba(0,119,182,0.3);
+}
+#canvas-age-15 .floor-carpet {
+    background: radial-gradient(circle, var(--age15-accent) 0%, var(--age15-carpet) 70%);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+}
+
+/* 6. Window in Center of Back Wall */
+.back-window {
+    position: absolute;
+    left: 40%; top: 16%; width: 24%; height: 26%;
+    background: linear-gradient(180deg, #90e0ef 0%, #caf0f8 100%);
+    border: 8px solid #4a3321;
+    border-radius: 4px;
+    z-index: 1;
+    box-shadow: inset 0 0 25px rgba(0,0,0,0.15);
+}
+
+.window-divider {
+    position: absolute;
+    left: 50%; top: 0; width: 4px; height: 100%;
+    background: #4a3321;
+}
+
+#canvas-age-10 .back-window { border-color: #3d2a1b; background: linear-gradient(180deg, #0077b6 0%, #90e0ef 100%); }
+#canvas-age-15 .back-window { border-color: #1e150f; background: #11141a; }
+
+/* Window rain drip animation inside Room 3 */
+.window-rain-overlay {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-image: radial-gradient(circle at 10% 20%, rgba(255,255,255,0.15) 1px, transparent 2px), radial-gradient(circle at 50% 60%, rgba(255,255,255,0.12) 1.5px, transparent 2.5px);
+    background-size: 80px 100px;
+    animation: windowRain 4s infinite linear;
+}
+
+@keyframes windowRain {
+    to { background-position: 15px 200px; }
+}
+
+/* Window plant pot */
+.windowsill-plant {
+    position: absolute;
+    bottom: -6px; left: 10px;
+    width: 25px; height: 20px;
+    background: #c28c5f;
+    border-radius: 3px 3px 0 0;
+    z-index: 2;
+}
+
+.plant-leafs {
+    position: absolute;
+    bottom: 12px; left: -2px;
+    width: 30px; height: 15px;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 15'><path d='M3,12 C5,2 12,5 15,12 M15,12 C18,3 25,6 27,12' stroke='green' stroke-width='2' fill='none'/></svg>");
+}
+#canvas-age-15 .plant-leafs {
+    filter: sepia(0.5) saturate(0.2) brightness(0.6);
+}
+
+/* 7. Ticking Wall Clock */
+.wall-clock {
+    position: absolute;
+    left: 26.5%; top: 12%; 
+    transform: translateX(-50%);
+    height: 9%; 
+    aspect-ratio: 1 / 1;
+    width: auto;
+    background: #ffffff;
+    border: 5px solid #5a3e2b;
+    border-radius: 50%;
+    z-index: 1;
+    box-shadow: 2px 4px 8px rgba(0,0,0,0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.clock-hand-hour {
+    position: absolute;
+    width: 3px; height: 35%;
+    background: black;
+    transform-origin: bottom center;
+    transform: rotate(70deg);
+    bottom: 50%; left: 50%;
+    margin-left: -1.5px;
+    border-radius: 2px;
+}
+.clock-hand-minute {
+    position: absolute;
+    width: 2px; height: 45%;
+    background: black;
+    transform-origin: bottom center;
+    transform: rotate(210deg);
+    bottom: 50%; left: 50%;
+    margin-left: -1px;
+    border-radius: 2px;
+}
+
+/* ==========================================
+   INTERACTIVE SUB-ELEMENTS (MODAL CONTENTS)
+   ========================================== */
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(5, 5, 8, 0.65);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    z-index: 200;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-content.glass {
+    background: rgba(15, 15, 20, 0.95);
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 35px 80px rgba(0,0,0,0.9), inset 0 1px 0 rgba(255,255,255,0.05);
+    border-radius: 20px;
+    max-width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    color: var(--text-light);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    animation: zoomIn 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+@keyframes zoomIn {
+    from { transform: scale(0.95); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+.modal-close {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--glass-border);
+    color: var(--text-light);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 210;
+    transition: var(--transition-smooth);
+}
+
+.modal-close:hover {
+    background: rgba(255,255,255,0.15);
+    transform: rotate(90deg);
+}
+
+/* Button UI */
+.btn-primary {
+    background: #ffffff;
+    color: #050508;
+    border: none;
+    padding: 12px 28px;
+    border-radius: 25px;
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+}
+
+.btn-primary:hover {
+    background: rgba(255,255,255,0.9);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(255,255,255,0.15);
+}
+
+/* Glass Select & Form */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.form-group label {
+    font-size: 0.9rem;
+    color: var(--text-light);
+    font-weight: 500;
+}
+.glass-select {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--glass-border);
+    color: var(--text-light);
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    outline: none;
+    cursor: pointer;
+}
+.glass-select option {
+    background: var(--bg-dark);
+    color: var(--text-light);
+}
+.glass-select:focus {
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Help Modal styling */
+.help-content {
+    padding: 40px;
+    width: 480px;
+    gap: 15px;
+}
+.help-content h3 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+.help-content ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+.help-content li {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: var(--text-muted);
+}
+.help-content li strong {
+    color: var(--text-light);
+    display: block;
+    margin-bottom: 2px;
+}
+
+/* Closeup dialog layout */
+.closeup-content {
+    width: 700px;
+    min-height: 450px;
+    padding: 40px;
+    overflow-x: hidden;
+}
+
+/* Crayon Drawings Detail */
+.crayon-drawing-closeup {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+.crayon-paper {
+    width: 440px;
+    height: 440px;
+    background: #ffffff;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+    border-radius: 4px;
+    padding: 25px;
+    transform: rotate(1deg);
+}
+
+.crayon-paper svg {
+    width: 100%;
+    height: 100%;
+}
+
+.crayon-caption {
+    font-family: 'Caveat', cursive;
+    font-size: 1.8rem;
+    color: #e76f51;
+    text-align: center;
+}
+
+/* Bedside Photos Detail */
+.photo-closeup-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.photo-matting {
+    padding: 25px 25px 50px 25px;
+    background: #fbf9f6;
+    border: 12px solid #222;
+    border-radius: 4px;
+    box-shadow: 0 20px 45px rgba(0,0,0,0.4);
+    transform: rotate(-1.5deg);
+    max-width: 440px;
+    position: relative;
+    overflow: hidden;
+}
+
+.photo-matting img, .photo-matting svg {
+    width: 100%;
+    height: auto;
+    border: 1px solid #ddd;
+    display: block;
+}
+
+.photo-caption {
+    font-family: 'Caveat', cursive;
+    font-size: 1.6rem;
+    color: var(--text-light);
+    text-align: center;
+    margin-top: 20px;
+}
+
+.photo-matting .photo-caption {
+    color: #333;
+}
+
+/* Flippable Book Pages Detail (Age 5 Shelf Book) */
+.book-view-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.book-pages-wrapper {
+    width: 580px;
+    height: 380px;
+    background: #eeddcc;
+    border-radius: 8px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    display: flex;
+    border: 4px solid #a67c52;
+    position: relative;
+}
+
+.book-pages-wrapper::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 0;
+    width: 2px;
+    height: 100%;
+    background: rgba(0,0,0,0.15);
+    box-shadow: 0 0 10px rgba(0,0,0,0.25);
+    z-index: 10;
+}
+
+.book-page-side {
+    width: 50%;
+    height: 100%;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Architects Daughter', cursive;
+    color: #3d3225;
+    overflow-y: auto;
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+.book-page-side.left-side {
+    border-right: 1px solid rgba(0,0,0,0.08);
+}
+
+.book-page-side.right-side {
+    border-left: 1px solid rgba(0,0,0,0.08);
+}
+
+.book-controls {
+    display: flex;
+    gap: 15px;
+}
+
+.book-btn {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid var(--glass-border);
+    color: var(--text-light);
+    padding: 6px 16px;
+    border-radius: 15px;
+    cursor: pointer;
+    font-size: 0.85rem;
+}
+
+.book-btn:hover {
+    background: rgba(255,255,255,0.15);
+}
+
+/* Handwritten Letters and Birthday Cards */
+.handwritten-letter-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.letter-sheet {
+    background: #fbfbf9;
+    width: 500px;
+    padding: 40px;
+    border-radius: 2px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+    color: #2b2b2e;
+    font-family: 'Caveat', cursive;
+    font-size: 1.6rem;
+    line-height: 1.6;
+    border-left: 4px solid #f4a261;
+}
+
+.letter-sheet.age-15-style {
+    font-family: 'Architects Daughter', cursive;
+    font-size: 1.1rem;
+    line-height: 1.7;
+    border-left-color: #777;
+    padding: 45px;
+}
+
+/* ==========================================
+   ROOM 2 SPECIFIC DETAILED SUB-ELEMENTS
+   ========================================== */
+
+/* CRT TV and Console Closeup */
+.tv-dvd-experience {
+    display: flex;
+    gap: 30px;
+    align-items: flex-start;
+}
+
+.tv-large-frame {
+    width: 380px;
+    height: 280px;
+    background: #1e1e1e;
+    border: 12px solid #333;
+    border-radius: 12px;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.5);
+    overflow: hidden;
+    position: relative;
+}
+
+.tv-screen-large {
+    width: 100%;
+    height: 100%;
+    background: #000;
+    position: relative;
+}
+
+.tv-scanlines {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.3) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.05), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.05));
+    background-size: 100% 4px, 6px 100%;
+    pointer-events: none;
+    z-index: 10;
+}
+
+.tv-gameplay-simulation {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #ffd166;
+    text-align: center;
+}
+
+
+
+.tv-controls-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    flex: 1;
+}
+
+.tv-btn-slot {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid var(--glass-border);
+    border-radius: 10px;
+    padding: 15px;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.tv-btn-slot:hover {
+    background: rgba(255,255,255,0.12);
+}
+
+.tv-btn-slot.playing {
+    border-color: #00b4d8;
+    background: rgba(0, 180, 216, 0.08);
+}
+
+.dvd-indicator-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #555;
+}
+
+.tv-btn-slot.playing .dvd-indicator-dot {
+    background: #00b4d8;
+    box-shadow: 0 0 8px #00b4d8;
+}
+
+/* Schoolbag Explorer */
+.schoolbag-explorer {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.schoolbag-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.bag-item-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    padding: 20px;
+    cursor: pointer;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    transition: var(--transition-smooth);
+}
+
+.bag-item-card:hover {
+    background: rgba(255,255,255,0.08);
+    transform: translateY(-3px);
+}
+
+.bag-item-icon {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255,255,255,0.05);
+    border-radius: 50%;
+}
+
+.bag-item-card h4 {
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+/* Report Card & Notes */
+.document-view-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.crumpled-note {
+    background: #fcf6e8;
+    color: #432a18;
+    width: 440px;
+    min-height: 250px;
+    padding: 30px;
+    font-family: 'Architects Daughter', cursive;
+    font-size: 1.15rem;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+    position: relative;
+    border: 1px dashed #cbab85;
+    clip-path: polygon(1% 2%, 97% 1%, 99% 96%, 3% 98%, 0% 50%);
+    transform: rotate(2deg);
+}
+
+.crumpled-note::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(135deg, rgba(255,255,255,0.3) 0%, rgba(0,0,0,0.05) 50%, rgba(255,255,255,0.2) 100%);
+    pointer-events: none;
+}
+
+.report-card-sheet {
+    background: #fdfdfd;
+    width: 520px;
+    color: #111;
+    padding: 35px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+    font-size: 0.9rem;
+    border: 5px double #333;
+}
+
+.report-card-sheet h3 {
+    text-align: center;
+    font-size: 1.25rem;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #333;
+    padding-bottom: 10px;
+}
+
+.report-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+.report-table th, .report-table td {
+    border: 1px solid #444;
+    padding: 8px 12px;
+    text-align: left;
+}
+
+.report-table th {
+    background: #f0f0f0;
+}
+
+.report-signatures {
+    margin-top: 30px;
+    display: flex;
+    justify-content: space-between;
+    font-style: italic;
+    border-top: 1px dashed #666;
+    padding-top: 15px;
+}
+
+/* Posters list closeup */
+.poster-closeup-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+/* ==========================================
+   ROOM 3 SPECIFIC DETAILED SUB-ELEMENTS
+   ========================================== */
+
+/* Bookshelf / Cupboard Explorer */
+.cupboard-explorer-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.cupboard-books-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.shelf-book-item {
+    background: #2b3a4a;
+    border-left: 8px solid #3d4f63;
+    border-radius: 3px;
+    padding: 15px 10px;
+    width: 100px;
+    height: 160px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: var(--transition-smooth);
+    box-shadow: 0 5px 12px rgba(0,0,0,0.25);
+}
+
+.shelf-book-item:hover {
+    transform: translateY(-8px) rotate(2deg);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.35);
+}
+
+.shelf-book-item.outsiders { background: #6b2d2d; border-left-color: #8c3d3d; }
+.shelf-book-item.astronomy { background: #302d4c; border-left-color: #4a446c; }
+.shelf-book-item.yearbook { background: #2f4f4f; border-left-color: #20b2aa; }
+.shelf-book-item.journal { background: #2f2a26; border-left-color: #473e38; }
+
+.shelf-book-item h5 {
+    font-size: 0.8rem;
+    font-weight: 500;
+    text-align: center;
+    line-height: 1.3;
+}
+
+/* Cassette Player */
+.audio-player-modal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 25px;
+    text-align: center;
+}
+
+.cassette-body {
+    width: 280px;
+    height: 170px;
+    background: #2b2b2b;
+    border: 4px solid #1a1a1a;
+    border-radius: 8px;
+    position: relative;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+}
+
+.cassette-label {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    right: 20px;
+    bottom: 20px;
+    background: #eaeaea;
+    color: #222;
+    border-radius: 6px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    font-family: monospace;
+    font-size: 0.8rem;
+}
+
+.cassette-reels {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 60px;
+    background: #111;
+    border-radius: 4px;
+    margin: 10px 0;
+}
+
+.reel {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #ffd166;
+    border: 5px dashed #222;
+}
+
+.cassette-body.playing .reel {
+    animation: spinReel 3s infinite linear;
+}
+
+@keyframes spinReel {
+    to { transform: rotate(360deg); }
+}
+
+.player-status-message {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    font-style: italic;
+    min-height: 24px;
+    max-width: 440px;
+    line-height: 1.5;
+}
+
+/* --- GRADUATION ALBUM (YEARBOOK) --- */
+.yearbook-layout {
+    display: flex;
+    gap: 30px;
+    height: 520px;
+}
+
+.yearbook-index {
+    width: 200px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    overflow-y: auto;
+    padding-right: 10px;
+    border-right: 1px solid var(--glass-border);
+}
+
+.yearbook-idx-btn {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--glass-border);
+    color: var(--text-light);
+    height: 38px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: 500;
+    transition: var(--transition-smooth);
+}
+
+.yearbook-idx-btn:hover {
+    background: rgba(255,255,255,0.12);
+}
+
+.yearbook-idx-btn.active {
+    background: #00b4d8;
+    color: white;
+    border-color: #00b4d8;
+}
+
+.yearbook-idx-btn.special-btn {
+    border-color: rgba(217, 64, 64, 0.4);
+}
+
+.yearbook-idx-btn.special-btn.active {
+    background: #d94040;
+    border-color: #d94040;
+}
+
+.yearbook-page-viewer {
+    flex: 1;
+    background: #fbfbf9;
+    color: #111;
+    border-radius: 6px;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+}
+
+.yearbook-page-viewer.crumpled {
+    clip-path: polygon(1% 1%, 98% 3%, 99% 97%, 2% 98%, 0% 50%);
+    background-image: linear-gradient(135deg, rgba(255,255,255,0.3) 0%, rgba(0,0,0,0.06) 50%, rgba(255,255,255,0.2) 100%);
+    transform: rotate(0.5deg);
+}
+
+.yearbook-student-profile {
+    display: flex;
+    gap: 25px;
+    align-items: flex-start;
+}
+
+.student-photo-slot {
+    width: 140px;
+    height: 180px;
+    background: #e5e5ea;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center;
+}
+
+.student-photo-slot svg {
+    width: 100%;
+    height: 100%;
+}
+
+.yearbook-student-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.yearbook-student-info h4 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #2c3e50;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 8px;
+}
+
+.yearbook-student-info .student-quote {
+    font-style: italic;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #555;
+    margin-top: 10px;
+    position: relative;
+}
+
+.yearbook-student-info .student-quote::before {
+    content: '"';
+    font-size: 2.5rem;
+    position: absolute;
+    left: -18px;
+    top: -12px;
+    color: #ddd;
+    font-family: Georgia, serif;
+}
+
+/* Bully vandalism styling */
+.vandalised-photo-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 140 180'><path d='M10,10 L130,170 M130,10 L10,170 M30,50 C50,20 100,20 110,80 M10,90 H130 M50,130 C20,150 120,160 70,120' stroke='black' stroke-width='8' fill='none'/></svg>");
+    background-size: cover;
+    z-index: 10;
+    opacity: 0.85;
+}
+
+.hate-scribble {
+    font-family: 'Architects Daughter', cursive;
+    color: #b32a2a;
+    font-size: 1.15rem;
+    font-weight: bold;
+    transform: rotate(-8deg);
+    border: 2px solid #b32a2a;
+    padding: 4px 8px;
+    position: absolute;
+    right: 20px;
+    bottom: 40px;
+    background: rgba(255,255,255,0.9);
+}
+
+.crumpled-shatter {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(135deg, rgba(255,255,255,0.4) 0%, rgba(0,0,0,0.05) 50%, rgba(255,255,255,0.3) 100%);
+    pointer-events: none;
+    z-index: 5;
+}
+
+.yearbook-footer {
+    text-align: right;
+    font-size: 0.8rem;
+    color: #999;
+    border-top: 1px solid #eee;
+    padding-top: 10px;
+}
+
+/* ==========================================
+   THREE DOOR SELECTION SCREEN LAYOUT
+   ========================================== */
+
+#landing-screen {
+    background: rgba(4, 4, 6, 0.95);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+}
+
+.landing-content {
+    padding: 60px 40px;
+    width: 900px;
+    max-width: 95%;
+    text-align: center;
+    gap: 30px;
+}
+
+.landing-content h2 {
+    font-size: 2.8rem;
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    margin-bottom: 5px;
+    background: linear-gradient(135deg, #fff 0%, #a5a5a5 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.landing-content .subtitle {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    max-width: 600px;
+    margin: 0 auto 10px auto;
+}
+
+/* Door Grid selector */
+.doors-container {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin: 30px 0;
+}
+
+.door-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    width: 200px;
+    position: relative;
+}
+
+.door-card h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-top: 15px;
+    color: var(--text-light);
+    transition: var(--transition-smooth);
+}
+
+.door-year {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    font-weight: 400;
+    margin-top: 3px;
+}
+
+/* Door frame and 3D Swinger Panel */
+.door-frame {
+    width: 140px;
+    height: 220px;
+    border: 6px solid #4a3321;
+    border-bottom: none;
+    background: #111;
+    position: relative;
+    perspective: 800px;
+    border-radius: 4px 4px 0 0;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    transition: var(--transition-smooth);
+}
+
+.door-panel {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #6a4220;
+    border: 3px solid #503115;
+    border-radius: 2px 2px 0 0;
+    transform-origin: left;
+    transition: transform 0.8s cubic-bezier(0.25, 0.8, 0.25, 1), background 0.4s;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 12px;
+}
+
+.door-knob {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #ffd166;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.4);
+}
+
+/* Door Aura Glows */
+.door-aura {
+    position: absolute;
+    top: -15px;
+    left: -15px;
+    width: 170px;
+    height: 250px;
+    border-radius: 12px;
+    filter: blur(20px);
+    opacity: 0.15;
+    z-index: -1;
+    transition: var(--transition-smooth);
+}
+
+.aura-age-5 { background: var(--age5-glow); }
+.aura-age-10 { background: var(--age10-glow); }
+.aura-age-15 { background: var(--age15-glow); }
+
+/* Hover swing doors animations */
+.door-card:hover .door-panel {
+    transform: rotateY(-75deg);
+    background: #8e5c38;
+}
+
+.door-card:hover .door-aura {
+    opacity: 0.5;
+}
+
+.door-card:hover .door-frame {
+    border-color: #ffd166;
+}
+
+.door-card:hover h3 {
+    color: #ffd166;
+}
+
+.landing-content .subtext {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    background: rgba(255, 255, 255, 0.03);
+    padding: 10px 20px;
+    border-radius: 10px;
+    display: inline-block;
+}
+
+/* ==========================================
+   HOTSPOTS & CLICKABLE OVERLAYS
+   ========================================== */
+
+.hotspot {
+    position: absolute;
+    cursor: pointer;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hotspot.draggable {
+    z-index: 20;
+}
+
+.hotspot.dragging {
+    z-index: 9999 !important;
+}
+
+.hotspot-glow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 2px dashed rgba(255, 209, 102, 0.4);
+    border-radius: 8px;
+    background: rgba(255, 209, 102, 0.05);
+    opacity: 0;
+    transition: var(--transition-smooth);
+    box-shadow: 0 0 10px rgba(255, 209, 102, 0);
+}
+
+.hotspot:hover .hotspot-glow {
+    opacity: 1;
+    border-color: rgba(255, 209, 102, 0.85);
+    background: rgba(255, 209, 102, 0.15);
+    box-shadow: 0 0 15px rgba(255, 209, 102, 0.5);
+    transform: scale(1.05);
+}
+
+/* Tooltip / Label styling */
+.hotspot-label {
+    position: absolute;
+    bottom: calc(100% + 5px);
+    background: rgba(10, 10, 15, 0.95);
+    color: var(--text-light);
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    border: 1px solid rgba(255, 209, 102, 0.5);
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: var(--transition-smooth);
+    transform: translateY(10px);
+    z-index: 999;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.8);
+}
+
+.hotspot:hover .hotspot-label {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.hotspot svg {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+}
+
+.hotspot svg path,
+.hotspot svg rect,
+.hotspot svg circle,
+.hotspot svg polygon {
+    transition: var(--transition-smooth);
+}
+
+/* Specific drop shadow styling for some items */
+.hotspot svg {
+    filter: drop-shadow(0 3px 6px rgba(0,0,0,0.2));
+}
+
+.hotspot:hover svg {
+    filter: drop-shadow(0 6px 12px rgba(255, 209, 102, 0.4));
+}
+
+/* ==========================================
+   PHASE 2: INVENTORY & DRAG-AND-DROP
+   ========================================== */
+
+.inventory-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 120px;
+    background: rgba(10, 10, 15, 0.85);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border-top: 1px solid rgba(255,255,255,0.1);
+    z-index: 150;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px 0;
+    transition: transform 0.4s ease;
+}
+
+.inventory-title {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.inventory-slots {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding-bottom: 5px;
+    justify-content: flex-start;
+    gap: 10px;
+    align-items: center;
+    min-height: 80px;
+    width: 80%;
+    max-width: 800px;
+    border-radius: 12px;
+    padding: 15px;
+    background: rgba(0,0,0,0.5);
+    border: 1px dashed rgba(255,255,255,0.15);
+}
+
+/* Dragging styles */
+.draggable {
+    cursor: grab !important;
+}
+
+.draggable:active {
+    cursor: grabbing !important;
+}
+
+.dragging {
+    opacity: 0.8;
+    z-index: 9999 !important;
+    pointer-events: none !important; /* Let events fall through to the drop zone */
+    filter: drop-shadow(0 15px 25px rgba(0,0,0,0.8));
+    transform: scale(1.1);
+    transition: none !important;
+}
+
+.hotspot.in-inventory {
+    position: relative !important;
+    left: auto !important;
+    top: auto !important;
+    width: 60px !important;
+    height: 60px !important;
+    flex-shrink: 0;
+    margin: 5px;
+    overflow: hidden;
+    border-radius: 8px;
+    background: rgba(255,255,255,0.05);
+}
+
+.hotspot.in-inventory .hotspot-label {
+    opacity: 1;
+    visibility: visible;
+    top: 110%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.75rem;
+    white-space: nowrap;
+}
+
+.room-canvas.drop-target {
+    background-color: rgba(255, 209, 102, 0.05) !important;
+}
+
+.inventory-slots.drop-target {
+    background-color: rgba(255, 255, 255, 0.08);
+    border-color: #ffd166;
+}
+
+@keyframes shake {
+    0% { transform: translateX(0); border-color: #ff4d4d; }
+    25% { transform: translateX(-8px); border-color: #ff4d4d; }
+    50% { transform: translateX(8px); border-color: #ff4d4d; }
+    75% { transform: translateX(-8px); border-color: #ff4d4d; }
+    100% { transform: translateX(0); border-color: #ff4d4d; }
+}
+
+.error-shake {
+    animation: shake 0.4s ease-in-out;
+    border-color: #ff4d4d !important;
+    background: rgba(255, 77, 77, 0.15) !important;
+}
+
+@keyframes popIn {
+    0% { transform: scale(0.5); opacity: 0; }
+    80% { transform: scale(1.1); opacity: 1; }
+    100% { transform: scale(1); opacity: 1; }
+}

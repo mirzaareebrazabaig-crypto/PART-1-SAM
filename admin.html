@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RPG Event - Admin Panel</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            padding: 40px 0;
+            background: #050508;
+            color: #f5f5f7;
+            font-family: 'Outfit', sans-serif;
+            overflow: auto;
+        }
+        .admin-container {
+            background: rgba(15, 15, 20, 0.95);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 40px;
+            width: 800px;
+            max-width: 90%;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 20px;
+        }
+        .header h1 {
+            color: #ffd166;
+            margin: 0;
+            font-size: 2rem;
+        }
+        .score-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .score-row {
+            display: flex;
+            justify-content: space-between;
+            background: rgba(255,255,255,0.05);
+            padding: 15px 20px;
+            border-radius: 8px;
+            font-size: 1.1rem;
+        }
+        .login-screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+        input {
+            padding: 10px 15px;
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.2);
+            background: transparent;
+            color: white;
+            font-family: inherit;
+            font-size: 1rem;
+            width: 250px;
+        }
+        button {
+            padding: 10px 20px;
+            border-radius: 8px;
+            border: none;
+            background: #ffd166;
+            color: #050508;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255,209,102,0.3);
+        }
+        .btn-danger {
+            background: #e63946;
+            color: white;
+        }
+        .btn-danger:hover {
+            box-shadow: 0 5px 15px rgba(230,57,70,0.3);
+        }
+        .btn-small {
+            padding: 5px 10px;
+            font-size: 0.85rem;
+            border-radius: 5px;
+        }
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+        }
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: none;
+            transform: translateY(-1px);
+        }
+        .score-header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+        .score-actions {
+            display: flex;
+            gap: 10px;
+        }
+        .score-details {
+            display: none;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.95rem;
+        }
+        .score-row.expanded .score-details {
+            display: block;
+        }
+        .item-status {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            padding: 5px 10px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 4px;
+        }
+        .status-correct { color: #4ade80; }
+        .status-incorrect { color: #f87171; }
+    </style>
+</head>
+<body>
+
+    <div class="admin-container" id="login-container">
+        <div class="login-screen">
+            <h1 style="color: #ffd166;">Admin Login</h1>
+            <p style="color: #8e8e93;">Enter password to view and manage scores.</p>
+            <input type="password" id="password-input" placeholder="Password">
+            <p id="login-error" style="color: #e63946; display: none;">Invalid password</p>
+            <button id="btn-login">Login</button>
+        </div>
+    </div>
+
+    <div class="admin-container" id="dashboard-container" style="display: none;">
+        <div class="header">
+            <div>
+                <h1>Event Leaderboard</h1>
+                <a href="/" style="color: #888; text-decoration: none; font-size: 0.9rem; margin-top: 5px; display: inline-block;">&larr; Back to Game</a>
+            </div>
+            <button id="btn-clear" class="btn-danger">Clear All Scores</button>
+        </div>
+        <div class="score-list" id="score-list">
+            <!-- Populated via JS -->
+        </div>
+    </div>
+
+    <script>
+        let adminToken = '';
+
+        function escapeHTML(str) {
+            if (typeof str !== 'string') return str;
+            return str.replace(/[&<>'"]/g, tag => ({
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                "'": '&#39;',
+                '"': '&quot;'
+            }[tag] || tag));
+        }
+
+        document.getElementById('btn-login').addEventListener('click', async () => {
+            const pwd = document.getElementById('password-input').value;
+            if(!pwd) return;
+
+            const errorEl = document.getElementById('login-error');
+            errorEl.style.display = 'none';
+
+            try {
+                const res = await fetch('/api/verify-admin', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ password: pwd })
+                });
+
+                if(res.ok) {
+                    const data = await res.json();
+                    adminToken = data.token;
+                    document.getElementById('login-container').style.display = 'none';
+                    document.getElementById('dashboard-container').style.display = 'block';
+                    loadScores();
+                } else {
+                    errorEl.textContent = 'Invalid password';
+                    errorEl.style.display = 'block';
+                }
+            } catch (err) {
+                console.error(err);
+                errorEl.textContent = 'Error connecting to server';
+                errorEl.style.display = 'block';
+            }
+        });
+
+        async function loadScores() {
+            try {
+                const res = await fetch('/api/scores');
+                const scores = await res.json();
+                
+                const list = document.getElementById('score-list');
+                list.innerHTML = '';
+                
+                if(scores.length === 0) {
+                    list.innerHTML = '<p style="text-align:center; color:#8e8e93;">No scores submitted yet.</p>';
+                    return;
+                }
+
+                scores.forEach((s, idx) => {
+                    let itemsHtml = '<p style="color:#888; font-size:0.9rem; margin-top:0;">No item analysis available for this entry.</p>';
+                    if (s.items && s.items.length > 0) {
+                        itemsHtml = s.items.map(item => {
+                            const isCorrect = item.status === 'correct';
+                            const statusColor = isCorrect ? 'status-correct' : 'status-incorrect';
+                            const statusIcon = isCorrect ? '✓' : '✗';
+                            let roomName = item.room === 'inventory' ? 'Inventory' : 'Age ' + item.room;
+                            if (item.room === '5') roomName = 'Age 5 (2010)';
+                            if (item.room === '10') roomName = 'Age 10 (2015)';
+                            if (item.room === '15') roomName = 'Age 15 (2020)';
+                            return `
+                                <div class="item-status">
+                                    <span><strong>${item.name.replace('misplaced-', '').replace(/-/g, ' ').toUpperCase()}</strong></span>
+                                    <span>Placed in: ${roomName} <span class="${statusColor}">${statusIcon}</span></span>
+                                </div>
+                            `;
+                        }).join('');
+                    }
+
+                    list.innerHTML += `
+                        <div class="score-row" id="row-${idx}">
+                            <div style="width: 100%;">
+                                <div class="score-header-content">
+                                    <span style="font-weight:bold;">#${idx + 1} &nbsp; ${escapeHTML(s.team)}</span>
+                                    <div style="display:flex; align-items:center; gap:20px;">
+                                        <span>${s.score} pts &nbsp;|&nbsp; ${s.formatted}</span>
+                                        <div class="score-actions">
+                                            <button class="btn-secondary btn-small" onclick="toggleDetails(${idx})">Analyze</button>
+                                            <button class="btn-danger btn-small" data-team="${escapeHTML(s.team)}" onclick="deleteTeam(this.dataset.team)">Delete</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="score-details" id="details-${idx}">
+                                    <h4 style="margin: 0 0 10px 0; color: #ffd166;">Item Placements:</h4>
+                                    ${itemsHtml}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+            } catch (err) {
+                console.error(err);
+                alert('Error loading scores. Is the server running?');
+            }
+        }
+
+        document.getElementById('btn-clear').addEventListener('click', async () => {
+            if(!confirm('Are you SURE you want to clear all scores? This cannot be undone.')) return;
+
+            try {
+                const res = await fetch('/api/clear-scores', {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + adminToken
+                    }
+                });
+
+                if(res.ok) {
+                    alert('Scores cleared!');
+                    loadScores();
+                } else {
+                    alert('Unauthorized action. Invalid session.');
+                }
+            } catch (err) {
+                console.error(err);
+                alert('Error clearing scores.');
+            }
+        });
+
+        function toggleDetails(idx) {
+            const row = document.getElementById(`row-${idx}`);
+            row.classList.toggle('expanded');
+        }
+
+        async function deleteTeam(teamName) {
+            if(!confirm(`Are you sure you want to delete the score for team "${teamName}"?`)) return;
+            
+            try {
+                const res = await fetch('/api/delete-score', {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + adminToken
+                    },
+                    body: JSON.stringify({ team: teamName })
+                });
+
+                if(res.ok) {
+                    loadScores();
+                } else {
+                    alert('Failed to delete team.');
+                }
+            } catch (err) {
+                console.error(err);
+                alert('Error deleting team.');
+            }
+        }
+    </script>
+</body>
+</html>
