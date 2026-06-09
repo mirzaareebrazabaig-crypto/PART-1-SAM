@@ -1,0 +1,1164 @@
+/* --------------------------------------------------
+   WINDOWS 93 Retro Parody Design System
+   Vanilla CSS Styling
+-------------------------------------------------- */
+
+:root {
+    --bg-gray: #c0c0c0;
+    --border-light: #ffffff;
+    --border-dark: #808080;
+    --border-darker: #050505;
+    
+    /* Retro OS Theme Colors */
+    --desktop-teal: #008080;
+    --titlebar-blue: linear-gradient(90deg, #000080, #1084d0);
+    --titlebar-blue-inactive: linear-gradient(90deg, #808080, #c0c0c0);
+    --window-shadow: 2px 2px 10px rgba(0, 0, 0, 0.4);
+    
+    /* Neon Glitch Themes */
+    --neon-pink: #ff007f;
+    --neon-cyan: #00f3ff;
+    --neon-yellow: #fffb00;
+    
+    /* Typography */
+    --font-ui: "Press Start 2P", "VT323", monospace;
+    --font-mono: "Share Tech Mono", "Courier New", monospace;
+    --font-retro: "VT323", monospace;
+}
+
+/* Base resets */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    user-select: none;
+    -webkit-user-drag: none;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: #000;
+    font-family: var(--font-ui);
+    font-size: 8px;
+}
+
+/* --------------------------------------------------
+   CRT & Retro Screen Overlay
+-------------------------------------------------- */
+
+.crt-screen {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Subtle screen flicker and vignette */
+.crt-glow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.02) 0%, rgba(0, 0, 0, 0.35) 100%);
+    pointer-events: none;
+    z-index: 99999;
+}
+
+.crt-scanlines {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        rgba(18, 16, 16, 0) 50%, 
+        rgba(0, 0, 0, 0.15) 50%
+    );
+    background-size: 100% 4px;
+    pointer-events: none;
+    z-index: 99998;
+}
+
+/* --------------------------------------------------
+   Split Viewport Layout
+-------------------------------------------------- */
+
+.split-viewport {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: var(--bg-gray);
+}
+
+.os-left-panel {
+    width: 65%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+}
+
+.split-divider {
+    width: 6px;
+    height: 100%;
+    background-color: var(--bg-gray);
+    flex-shrink: 0;
+    box-shadow: inset 1.5px 0 0 #fff, inset -1.5px 0 0 #808080;
+    border-left: 1px solid #dfdfdf;
+    border-right: 1px solid #000;
+}
+
+.form-right-panel {
+    width: 35%;
+    height: 100%;
+    padding: 6px;
+    background-color: var(--bg-gray);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.form-right-panel .window {
+    position: relative !important;
+    width: 100% !important;
+    height: 100% !important;
+    top: 0 !important;
+    left: 0 !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    box-shadow: none !important;
+}
+
+/* --------------------------------------------------
+   3D Bevel Utilities (The heart of Windows 95/98/93)
+-------------------------------------------------- */
+
+.bevel-out {
+    border-top: 1.5px solid #fff;
+    border-left: 1.5px solid #fff;
+    border-right: 1.5px solid #000;
+    border-bottom: 1.5px solid #000;
+    box-shadow: inset 1px 1px 0px #dfdfdf, inset -1px -1px 0px #808080;
+    background-color: var(--bg-gray);
+    border-radius: 0;
+}
+
+.bevel-in {
+    border-top: 1.5px solid #808080;
+    border-left: 1.5px solid #808080;
+    border-right: 1.5px solid #fff;
+    border-bottom: 1.5px solid #fff;
+    box-shadow: inset 1px 1px 0px #000000;
+    background-color: #ffffff;
+    border-radius: 0;
+}
+
+/* Active window state has double shadow */
+.window-active {
+    box-shadow: 3px 3px 15px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* --------------------------------------------------
+   Boot Screen
+-------------------------------------------------- */
+
+.boot-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #0d0e15;
+    color: var(--neon-cyan);
+    font-family: var(--font-mono);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 999999;
+    padding: 20px;
+    transition: opacity 0.5s ease;
+}
+
+.boot-log-container {
+    max-width: 600px;
+    width: 100%;
+}
+
+.boot-ascii {
+    color: var(--neon-pink);
+    font-size: 10px;
+    line-height: 1.1;
+    margin-bottom: 20px;
+    text-align: center;
+    text-shadow: 0 0 5px var(--neon-pink);
+}
+
+.boot-progress-bar {
+    width: 100%;
+    height: 15px;
+    background: #1c1d26;
+    border: 1px solid var(--neon-cyan);
+    margin-bottom: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+.boot-progress {
+    width: 0%;
+    height: 100%;
+    background-color: var(--neon-cyan);
+    box-shadow: 0 0 10px var(--neon-cyan);
+}
+
+.boot-logs {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    height: 150px;
+    overflow-y: auto;
+    background: #06070a;
+    border: 1px solid #1c1d26;
+    padding: 10px;
+    color: #4af626;
+}
+
+.boot-logs p {
+    margin-bottom: 4px;
+}
+
+/* --------------------------------------------------
+   Desktop Environment
+-------------------------------------------------- */
+
+.desktop {
+    flex: 1;
+    background-color: var(--desktop-teal);
+    position: relative;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-content: flex-start;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+/* Shortcuts */
+.desktop-shortcut {
+    width: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 4px;
+    transition: background 0.1s;
+}
+
+.desktop-shortcut:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+.desktop-shortcut:active, .desktop-shortcut.selected {
+    background-color: rgba(255, 255, 255, 0.25);
+    outline: 1px dashed rgba(255, 255, 255, 0.5);
+}
+
+.shortcut-icon {
+    font-size: 32px;
+    margin-bottom: 5px;
+    filter: drop-shadow(1px 2px 2px rgba(0, 0, 0, 0.5));
+}
+
+.shortcut-label {
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 500;
+    text-shadow: 1px 1px 1px #000000;
+    word-break: break-word;
+}
+
+/* --------------------------------------------------
+   Window Framework (Draggable Window containers)
+-------------------------------------------------- */
+
+.window {
+    position: absolute;
+    min-width: 250px;
+    min-height: 150px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: var(--window-shadow);
+    z-index: 10;
+}
+
+.window-header {
+    background: var(--titlebar-blue);
+    color: #ffffff;
+    padding: 4px 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-weight: 600;
+    font-size: 13px;
+    cursor: move;
+    letter-spacing: 0.5px;
+}
+
+.window-inactive .window-header {
+    background: var(--titlebar-blue-inactive);
+    color: #dfdfdf;
+}
+
+.window-title {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.window-title-icon {
+    font-size: 14px;
+}
+
+.window-controls {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.window-btn {
+    width: 18px;
+    height: 18px;
+    font-size: 10px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    outline: none;
+}
+
+.window-btn:active {
+    border-top: 2px solid var(--border-dark);
+    border-left: 2px solid var(--border-dark);
+    border-right: 2px solid var(--border-light);
+    border-bottom: 2px solid var(--border-light);
+    box-shadow: inset 1px 1px 0px var(--border-darker);
+}
+
+.window-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 6px;
+    overflow: hidden;
+    background-color: var(--bg-gray);
+}
+
+.window-content {
+    flex: 1;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Standard Retro Menubar (File, Edit, etc) */
+.window-menu {
+    display: flex;
+    gap: 12px;
+    padding: 2px 4px;
+    font-size: 12px;
+    border-bottom: 2px solid var(--border-dark);
+    margin-bottom: 6px;
+}
+
+.window-menu-item {
+    cursor: pointer;
+    padding: 2px 4px;
+}
+
+.window-menu-item:hover {
+    background-color: #000080;
+    color: #ffffff;
+}
+
+/* --------------------------------------------------
+   File Explorer Application
+-------------------------------------------------- */
+
+.explorer-container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.explorer-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px;
+}
+
+.explorer-path {
+    flex: 1;
+    padding: 4px 6px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+}
+
+.explorer-grid {
+    flex: 1;
+    padding: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    gap: 16px;
+    overflow-y: auto;
+    height: 200px;
+}
+
+.explorer-item {
+    width: 68px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    cursor: pointer;
+    padding: 4px;
+}
+
+.explorer-item:hover {
+    background-color: rgba(0, 0, 128, 0.1);
+    outline: 1px dashed var(--border-dark);
+}
+
+.explorer-item.selected {
+    background-color: #000080;
+    color: #ffffff;
+    outline: 1px dashed #ffffff;
+}
+
+.explorer-item-icon {
+    font-size: 24px;
+    margin-bottom: 4px;
+}
+
+.explorer-item-name {
+    font-size: 11px;
+    word-break: break-word;
+}
+
+.explorer-statusbar {
+    padding: 2px 6px;
+    font-size: 11px;
+    color: #404040;
+    display: flex;
+    justify-content: space-between;
+}
+
+/* Toolbar button class */
+.retro-btn {
+    padding: 2px 8px;
+    font-family: var(--font-ui);
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.retro-btn:active {
+    border-top: 2px solid var(--border-dark);
+    border-left: 2px solid var(--border-dark);
+    border-right: 2px solid var(--border-light);
+    border-bottom: 2px solid var(--border-light);
+    box-shadow: inset 1px 1px 0px var(--border-darker);
+}
+
+/* --------------------------------------------------
+   CodeMan Editor Application
+-------------------------------------------------- */
+
+.codeman-container {
+    height: 100%;
+    display: flex;
+}
+
+.codeman-sidebar {
+    width: 160px;
+    border-right: 2px solid var(--border-dark);
+    display: flex;
+    flex-direction: column;
+    background-color: #f0f0f0;
+}
+
+.codeman-sidebar-title {
+    background-color: var(--border-dark);
+    color: #fff;
+    padding: 4px 6px;
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+}
+
+.codeman-tree {
+    flex: 1;
+    overflow-y: auto;
+    padding: 6px;
+    list-style: none;
+    font-family: var(--font-mono);
+    font-size: 12px;
+}
+
+.codeman-tree li {
+    padding: 3px 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    white-space: nowrap;
+}
+
+.codeman-tree li:hover {
+    background-color: #dfdfdf;
+}
+
+.codeman-tree li.selected {
+    background-color: #000080;
+    color: #ffffff;
+}
+
+.codeman-editor-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.codeman-tabs {
+    display: flex;
+    background-color: #dfdfdf;
+    padding-top: 4px;
+    padding-left: 4px;
+    border-bottom: 2px solid var(--border-dark);
+}
+
+.codeman-tab {
+    padding: 3px 10px;
+    font-size: 12px;
+    cursor: pointer;
+    border-top: 2px solid var(--border-light);
+    border-left: 2px solid var(--border-light);
+    border-right: 2px solid var(--border-dark);
+    border-bottom: none;
+    margin-right: 2px;
+    background-color: var(--bg-gray);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.codeman-tab.active {
+    background-color: #ffffff;
+    font-weight: bold;
+    margin-bottom: -2px;
+    padding-bottom: 5px;
+    z-index: 2;
+    border-right: 2px solid var(--border-dark);
+    box-shadow: 1px 0px 0px var(--border-darker);
+}
+
+.codeman-tab-close {
+    font-size: 9px;
+    cursor: pointer;
+    font-weight: bold;
+    color: #808080;
+}
+
+.codeman-tab-close:hover {
+    color: #ff0000;
+}
+
+.codeman-editor-wrapper {
+    flex: 1;
+    position: relative;
+    display: flex;
+}
+
+/* Combined Editor Textarea & Overlay Highlighting */
+.codeman-editor-textarea {
+    flex: 1;
+    width: 100%;
+    height: 100%;
+    resize: none;
+    border: none;
+    outline: none;
+    padding: 10px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    line-height: 1.5;
+    background-color: #1e1e1e;
+    color: #dfdfdf;
+    tab-size: 4;
+}
+
+.codeman-toolbar {
+    display: flex;
+    padding: 4px;
+    gap: 8px;
+    background-color: var(--bg-gray);
+    border-top: 2px solid var(--border-light);
+}
+
+/* --------------------------------------------------
+   Retro Terminal Application
+-------------------------------------------------- */
+
+.terminal-container {
+    flex: 1;
+    background-color: #020202;
+    color: #39ff14; /* Classic neon Green */
+    font-family: var(--font-mono);
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    box-shadow: inset 1px 1px 5px rgba(0,0,0,0.8);
+}
+
+.terminal-output {
+    flex: 1;
+    overflow-y: auto;
+    margin-bottom: 8px;
+    line-height: 1.4;
+    font-size: 13px;
+}
+
+.terminal-line {
+    margin-bottom: 4px;
+    white-space: pre-wrap;
+    word-break: break-all;
+}
+
+.terminal-line-error {
+    color: var(--neon-pink);
+}
+
+.terminal-line-success {
+    color: var(--neon-cyan);
+}
+
+.terminal-line-warn {
+    color: var(--neon-yellow);
+}
+
+.terminal-prompt-container {
+    display: flex;
+    align-items: center;
+}
+
+.terminal-prompt-symbol {
+    color: #39ff14;
+    margin-right: 8px;
+    font-weight: bold;
+}
+
+.terminal-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #39ff14;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    caret-color: #39ff14;
+}
+
+/* --------------------------------------------------
+   Glitch Paint Application
+-------------------------------------------------- */
+
+.paint-container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.paint-toolbar {
+    display: flex;
+    padding: 4px;
+    gap: 8px;
+    background-color: var(--bg-gray);
+    border-bottom: 2px solid var(--border-dark);
+}
+
+.paint-color-picker {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+}
+
+.paint-color-swatch {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    border: 1px solid #000;
+}
+
+.paint-color-swatch.active {
+    outline: 2px solid #fff;
+}
+
+.paint-canvas-area {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #555;
+    padding: 10px;
+    overflow: auto;
+}
+
+.paint-canvas {
+    background-color: #ffffff;
+    cursor: crosshair;
+    box-shadow: 3px 3px 5px rgba(0,0,0,0.5);
+}
+
+/* --------------------------------------------------
+   Taskbar Layout
+-------------------------------------------------- */
+
+.taskbar {
+    height: 36px;
+    background-color: var(--bg-gray);
+    border-top: 2px solid var(--border-light);
+    display: flex;
+    align-items: center;
+    padding: 4px 6px;
+    z-index: 10000;
+    gap: 8px;
+    box-shadow: 0 -1px 2px rgba(0,0,0,0.2);
+}
+
+.start-btn-container {
+    position: relative;
+}
+
+.start-btn {
+    height: 28px;
+    padding: 2px 10px;
+    font-family: var(--font-ui);
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    outline: none;
+    background-color: var(--bg-gray);
+    border-top: 2px solid var(--border-light);
+    border-left: 2px solid var(--border-light);
+    border-right: 2px solid var(--border-dark);
+    border-bottom: 2px solid var(--border-dark);
+    box-shadow: 1px 1px 0px var(--border-darker);
+}
+
+.start-btn:active, .start-btn.active {
+    border-top: 2px solid var(--border-dark);
+    border-left: 2px solid var(--border-dark);
+    border-right: 2px solid var(--border-light);
+    border-bottom: 2px solid var(--border-light);
+    box-shadow: inset 1px 1px 0px var(--border-darker);
+    padding-top: 3px;
+    padding-left: 11px;
+}
+
+.start-icon {
+    color: var(--neon-pink);
+    font-size: 14px;
+    animation: start-pulse 2s infinite linear;
+}
+
+@keyframes start-pulse {
+    0% { transform: scale(1); filter: hue-rotate(0deg); }
+    50% { transform: scale(1.1); filter: hue-rotate(180deg); }
+    100% { transform: scale(1); filter: hue-rotate(360deg); }
+}
+
+/* Start Menu drop-up */
+.start-menu {
+    position: absolute;
+    bottom: 32px;
+    left: 0;
+    width: 200px;
+    display: none;
+    flex-direction: row;
+    box-shadow: var(--window-shadow);
+    z-index: 10005;
+    border-top: 2px solid var(--border-light);
+    border-left: 2px solid var(--border-light);
+    border-right: 2px solid var(--border-dark);
+    border-bottom: 2px solid var(--border-dark);
+    background-color: var(--bg-gray);
+}
+
+.start-menu.open {
+    display: flex;
+}
+
+.start-menu-sidebar {
+    width: 28px;
+    background: linear-gradient(180deg, var(--neon-pink), var(--neon-cyan));
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding-bottom: 12px;
+}
+
+.sidebar-text {
+    writing-mode: vertical-lr;
+    transform: rotate(180deg);
+    color: #ffffff;
+    font-weight: bold;
+    font-family: var(--font-ui);
+    font-size: 14px;
+    letter-spacing: 1px;
+    text-shadow: 1px 1px 2px #000;
+}
+
+.start-menu-items {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 2px;
+}
+
+.start-item {
+    padding: 6px 12px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.start-item:hover {
+    background-color: #000080;
+    color: #ffffff;
+}
+
+.start-item-icon {
+    font-size: 14px;
+}
+
+.start-divider {
+    height: 2px;
+    background-color: var(--border-dark);
+    margin: 4px 6px;
+    border-bottom: 1px solid var(--border-light);
+}
+
+/* Tabs list on taskbar */
+.taskbar-tabs {
+    flex: 1;
+    display: flex;
+    gap: 4px;
+    overflow-x: auto;
+    height: 28px;
+}
+
+.taskbar-tab {
+    width: 120px;
+    height: 28px;
+    padding: 2px 6px;
+    font-size: 11px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    background-color: var(--bg-gray);
+    border-top: 2px solid var(--border-light);
+    border-left: 2px solid var(--border-light);
+    border-right: 2px solid var(--border-dark);
+    border-bottom: 2px solid var(--border-dark);
+}
+
+.taskbar-tab:active, .taskbar-tab.active {
+    border-top: 2px solid var(--border-dark);
+    border-left: 2px solid var(--border-dark);
+    border-right: 2px solid var(--border-light);
+    border-bottom: 2px solid var(--border-light);
+    box-shadow: inset 1px 1px 0px var(--border-darker);
+    background-color: #dfdfdf;
+    font-weight: bold;
+}
+
+/* System Tray */
+.system-tray {
+    display: flex;
+    align-items: center;
+    padding: 2px 6px;
+    height: 28px;
+    border-top: 2px solid var(--border-dark);
+    border-left: 2px solid var(--border-dark);
+    border-right: 2px solid var(--border-light);
+    border-bottom: 2px solid var(--border-light);
+    box-shadow: inset 1px 1px 0px var(--border-darker);
+    background-color: var(--bg-gray);
+}
+
+.tray-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 12px;
+    padding: 2px;
+    outline: none;
+}
+
+.tray-divider {
+    width: 1px;
+    height: 16px;
+    background-color: var(--border-dark);
+    border-right: 1px solid var(--border-light);
+    margin: 0 6px;
+}
+
+.system-clock {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: bold;
+    color: #000;
+}
+
+/* --------------------------------------------------
+   Blue Screen of Death (BSOD) & Shutdown Screens
+-------------------------------------------------- */
+
+.bsod-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000082;
+    color: #ffffff;
+    font-family: var(--font-mono);
+    z-index: 1000000;
+    padding: 10% 15%;
+    display: none;
+    line-height: 1.6;
+    animation: crt-flicker 0.15s infinite;
+}
+
+.bsod-content {
+    max-width: 800px;
+}
+
+.bsod-title {
+    background-color: #ffffff;
+    color: #000082;
+    padding: 2px 10px;
+    display: inline-block;
+    font-size: 20px;
+    margin-bottom: 30px;
+    font-family: var(--font-mono);
+}
+
+.bsod-code {
+    color: var(--neon-yellow);
+}
+
+/* CRT Screen flicker and glitches */
+@keyframes crt-flicker {
+    0% { opacity: 0.985; }
+    50% { opacity: 1.0; }
+    100% { opacity: 0.99; }
+}
+
+/* General Glitchy animations that can be triggered dynamically */
+.glitch-effect {
+    animation: screen-glitch 0.2s steps(2) infinite;
+}
+
+@keyframes screen-glitch {
+    0% { transform: translate(1px, 1px) rotate(0deg); filter: hue-rotate(0deg) invert(0); }
+    20% { transform: translate(-1px, -1px) rotate(0.5deg); filter: hue-rotate(90deg) invert(0); }
+    40% { transform: translate(2px, -1px) rotate(-0.5deg); filter: hue-rotate(180deg) invert(1); }
+    60% { transform: translate(-2px, 2px) rotate(0deg); filter: hue-rotate(270deg) invert(1); }
+    80% { transform: translate(1px, 2px) rotate(0.5deg); filter: hue-rotate(0deg) invert(0); }
+    100% { transform: translate(-1px, 1px) rotate(-0.5deg); filter: hue-rotate(360deg) invert(0); }
+}
+
+/* custom scrollbars */
+::-webkit-scrollbar {
+    width: 16px;
+    height: 16px;
+    background-color: #dfdfdf;
+    border-left: 1px solid var(--border-dark);
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: var(--bg-gray);
+    border-top: 2px solid var(--border-light);
+    border-left: 2px solid var(--border-light);
+    border-right: 2px solid var(--border-dark);
+    border-bottom: 2px solid var(--border-dark);
+    box-shadow: 1px 1px 0px var(--border-darker);
+}
+
+::-webkit-scrollbar-thumb:active {
+    border-top: 2px solid var(--border-dark);
+    border-left: 2px solid var(--border-dark);
+    border-right: 2px solid var(--border-light);
+    border-bottom: 2px solid var(--border-light);
+    box-shadow: inset 1px 1px 0px var(--border-darker);
+}
+
+::-webkit-scrollbar-button {
+    display: block;
+    width: 16px;
+    height: 16px;
+    background-color: var(--bg-gray);
+    border-top: 2px solid var(--border-light);
+    border-left: 2px solid var(--border-light);
+    border-right: 2px solid var(--border-dark);
+    border-bottom: 2px solid var(--border-dark);
+}
+
+/* Dialogue boxes */
+.dialog-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.4);
+    z-index: 50000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dialog-box {
+    width: 320px;
+    box-shadow: var(--window-shadow);
+}
+
+.dialog-body {
+    padding: 16px;
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    font-size: 13px;
+}
+
+.dialog-icon {
+    font-size: 32px;
+}
+
+.dialog-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    padding: 8px 16px;
+    background-color: #dfdfdf;
+    border-top: 1px solid var(--border-dark);
+}
+
+/* --------------------------------------------------
+   Press Start 2P Pixel Typography Scale Overrides
+-------------------------------------------------- */
+.shortcut-label {
+    font-size: 8px;
+    line-height: 1.4;
+    font-weight: normal;
+}
+.window-header {
+    font-size: 8px;
+    font-weight: normal;
+    padding: 6px 8px;
+}
+.window-title-icon {
+    font-size: 8px;
+}
+.window-btn {
+    font-size: 8px;
+    font-weight: normal;
+}
+.window-menu {
+    font-size: 8px;
+}
+.explorer-item-name {
+    font-size: 8px;
+}
+.explorer-statusbar {
+    font-size: 8px;
+}
+.retro-btn {
+    font-size: 8px;
+    font-weight: normal;
+}
+.codeman-sidebar-title {
+    font-size: 8px;
+    font-weight: normal;
+}
+.codeman-tree {
+    font-size: 8px;
+}
+.codeman-tab {
+    font-size: 8px;
+    font-weight: normal;
+}
+.codeman-tab-close {
+    font-size: 8px;
+    font-weight: normal;
+}
+.start-btn {
+    font-size: 8px;
+    font-weight: normal;
+}
+.start-icon {
+    font-size: 8px;
+}
+.sidebar-text {
+    font-size: 9px;
+    font-weight: normal;
+}
+.start-item {
+    font-size: 8px;
+    font-weight: normal;
+}
+.start-item-icon {
+    font-size: 8px;
+}
+.taskbar-tab {
+    font-size: 8px;
+    font-weight: normal;
+}
+.tray-btn {
+    font-size: 8px;
+}
+.dialog-body {
+    font-size: 8px;
+}

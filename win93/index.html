@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WINDOWS 93 - Active OS</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="An interactive split-screen retro Windows 93 web operating system replica. Main area features draggable desktop window applications, virtual files, terminals, and a retro clock, paired side-by-side with an integrated Google Form.">
+    <meta name="keywords" content="Windows 93, Windows 98, Retro OS, Web Operating System, CodeMan, Code Editor, Web Desktop">
+    
+    <!-- Fonts & Syntax Highlighting -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&family=Share+Tech+Mono&family=Press+Start+2P&family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Prism Syntax Highlighting CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-css.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js"></script>
+    
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- CRT Scanline Screen Overlay -->
+    <div class="crt-screen">
+        <div class="crt-glow"></div>
+        <div class="crt-scanlines"></div>
+        
+        <!-- Boot System Loader Screen -->
+        <div id="boot-screen" class="boot-screen">
+            <div class="boot-log-container">
+                <pre class="boot-ascii">
+██╗    ██╗██╗███╗   ██╗ ██████╗ ██████╗ 
+██║    ██║██║████╗  ██║██╔═══██╗╚════██╗
+██║ █╗ ██║██║██╔██╗ ██║██║   ██║ █████╔╝
+██║███╗██║██║██║╚██╗██║██║   ██║ ╚═══██╗
+╚███╔███╔╝██║██║ ╚████║╚██████╔╝██████╔╝
+ ╚══╝╚══╝ ╚═╝╚═╝  ╚═══╝ ╚═════╝ ╚═════╝ 
+                 [ ACTIVE SYSTEM ]
+                </pre>
+                <div class="boot-progress-bar">
+                    <div id="boot-progress" class="boot-progress"></div>
+                </div>
+                <div id="boot-logs" class="boot-logs">
+                    <p>> INITIATING BI-STABLE OS PARADISE CORE...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Split Viewport Panel Wrapper -->
+        <div class="split-viewport">
+            
+            <!-- LEFT PANEL: Retro OS Desktop (65% width) -->
+            <div class="os-left-panel">
+                <!-- Main Desktop Workspace -->
+                <main class="desktop" id="desktop">
+                    <!-- Desktop Shortcuts -->
+                    <div class="desktop-shortcut" data-app="explorer" id="shortcut-explorer">
+                        <div class="shortcut-icon icon-explorer">📁</div>
+                        <span class="shortcut-label">My Documents</span>
+                    </div>
+                    
+                    <div class="desktop-shortcut" data-app="codeman" id="shortcut-codeman">
+                        <div class="shortcut-icon icon-codeman">💾</div>
+                        <span class="shortcut-label">CodeMan Editor</span>
+                    </div>
+                    
+                    <div class="desktop-shortcut" data-app="terminal" id="shortcut-terminal">
+                        <div class="shortcut-icon icon-terminal">📟</div>
+                        <span class="shortcut-label">Retro Shell</span>
+                    </div>
+
+                    <div class="desktop-shortcut" data-app="paint" id="shortcut-paint">
+                        <div class="shortcut-icon icon-paint">🎨</div>
+                        <span class="shortcut-label">Glitch Paint</span>
+                    </div>
+                    
+                    <div class="desktop-shortcut" data-app="kindle" id="shortcut-kindle">
+                        <div class="shortcut-icon icon-kindle">📖</div>
+                        <span class="shortcut-label">Kindle Library</span>
+                    </div>
+                    
+                    <div class="desktop-shortcut" data-app="spotify" id="shortcut-spotify">
+                        <div class="shortcut-icon icon-spotify">🟢</div>
+                        <span class="shortcut-label">Spotify</span>
+                    </div>
+                    
+                    <div class="desktop-shortcut" data-app="gmail" id="shortcut-gmail">
+                        <div class="shortcut-icon icon-gmail">✉️</div>
+                        <span class="shortcut-label">Gmail</span>
+                    </div>
+                    
+                    <div class="desktop-shortcut" data-app="notepad" id="shortcut-notepad">
+                        <div class="shortcut-icon icon-notepad">📝</div>
+                        <span class="shortcut-label">Notepad</span>
+                    </div>
+                    
+                    <div class="desktop-shortcut" data-app="recycle" id="shortcut-recycle">
+                        <div class="shortcut-icon icon-recycle">🗑️</div>
+                        <span class="shortcut-label">Recycle Bin</span>
+                    </div>
+                </main>
+
+                <!-- Taskbar inside Left OS Panel -->
+                <footer class="taskbar">
+                    <!-- Start Button -->
+                    <div class="start-btn-container">
+                        <button class="start-btn" id="start-btn">
+                            <span class="start-icon">☣️</span> Start
+                        </button>
+                        
+                        <!-- Start Menu Drop-up -->
+                        <div class="start-menu" id="start-menu">
+                            <div class="start-menu-sidebar">
+                                <div class="sidebar-text">WINDOWS 93</div>
+                            </div>
+                            <div class="start-menu-items">
+                                <div class="start-item" data-app="explorer">
+                                    <span class="start-item-icon">📁</span> File Explorer
+                                </div>
+                                <div class="start-item" data-app="codeman">
+                                    <span class="start-item-icon">💾</span> CodeMan Editor
+                                </div>
+                                <div class="start-item" data-app="terminal">
+                                    <span class="start-item-icon">📟</span> Retro Terminal
+                                </div>
+                                <div class="start-item" data-app="paint">
+                                    <span class="start-item-icon">🎨</span> Glitch Paint
+                                </div>
+                                <div class="start-item" data-app="kindle">
+                                    <span class="start-item-icon">📖</span> Kindle Library
+                                </div>
+                                <div class="start-item" data-app="spotify">
+                                    <span class="start-item-icon">🟢</span> Spotify
+                                </div>
+                                <div class="start-item" data-app="gmail">
+                                    <span class="start-item-icon">✉️</span> Gmail
+                                </div>
+                                <div class="start-item" data-app="notepad">
+                                    <span class="start-item-icon">📝</span> Notepad
+                                </div>
+                                <div class="start-divider"></div>
+                                <div class="start-item" id="start-reset-vfs">
+                                    <span class="start-item-icon">🔄</span> Reinstall OS (Reset VFS)
+                                </div>
+                                <div class="start-item" id="start-shutdown">
+                                    <span class="start-item-icon">🔌</span> Shutdown System
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Active Window Tabs on the Taskbar -->
+                    <div class="taskbar-tabs" id="taskbar-tabs"></div>
+
+                    <!-- System Tray -->
+                    <div class="system-tray">
+                        <button class="tray-btn" id="sound-toggle" title="Toggle System Sound">
+                            🔊
+                        </button>
+                        <div class="tray-divider"></div>
+                        <div class="system-clock" id="system-clock">00:00:00</div>
+                    </div>
+                </footer>
+            </div>
+
+            <!-- Panel Split Divider (Retro Beveled Separator) -->
+            <div class="split-divider"></div>
+
+            <!-- RIGHT PANEL: Google Form Window Panel (35% width) -->
+            <div class="form-right-panel">
+                <div class="window bevel-out" style="width:100%; height:100%; position:relative; display:flex; flex-direction:column;">
+                    <div class="window-header">
+                        <div class="window-title">
+                            <span class="window-title-icon">📋</span>
+                            <span class="window-title-text">Survey.exe</span>
+                        </div>
+                        <div class="window-controls">
+                            <!-- Purely cosmetic controls to match Win93 design layout -->
+                            <button class="window-btn bevel-out" style="cursor:default;" disabled>_</button>
+                            <button class="window-btn bevel-out" style="cursor:default;" disabled>🗖</button>
+                            <button class="window-btn bevel-out" style="cursor:default;" disabled>X</button>
+                        </div>
+                    </div>
+                    <div class="window-body" style="flex:1; display:flex; flex-direction:column; padding:6px; overflow:hidden;">
+                        <div class="window-content bevel-in" style="background:#ffffff; flex:1; display:flex; overflow:hidden;">
+                            <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSctJvXPbhazp4V8YbSBjhlqQb5_HiFgfSveTQKk5fuQTJ6IHg/viewform?embedded=true" style="width:100%; height:100%; border:none; overflow:auto;" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- BSOD Screen Overlay -->
+    <div id="bsod-screen" class="bsod-screen">
+        <div class="bsod-content">
+            <h1 class="bsod-title">SYSTEM_SHUTDOWN_REQUEST</h1>
+            <p>A fatal keyboard shutdown command was executed. The operating system has been halted to prevent internet access overload.</p>
+            <p>If this is the first time you've seen this error screen, restart your retro system.</p>
+            <p>Technical Information:</p>
+            <p class="bsod-code">*** STOP: 0x00000093 (0x0000000D, 0x00000002, 0x19932026, 0x00000000)</p>
+            <br>
+            <p>Press any key to reboot into a fresh session...</p>
+        </div>
+    </div>
+
+    <!-- Script Loads (VFS and core OS dependencies) -->
+    <script src="js/sound.js?v=1.0.4"></script>
+    <script src="js/vfs.js?v=1.0.4"></script>
+    <script src="js/app.js?v=1.0.5"></script> <!-- Core OS manager containing SystemOS loaded first -->
+    
+    <!-- Script Loads (Applications registering themselves) -->
+    <script src="js/apps/explorer.js?v=1.0.4"></script>
+    <script src="js/apps/codeman.js?v=1.0.4"></script>
+    <script src="js/apps/terminal.js?v=1.0.4"></script>
+    <script src="js/apps/paint.js?v=1.0.4"></script>
+    <script src="js/apps/kindle.js?v=1.0.5"></script>
+    <script src="js/apps/spotify.js?v=1.0.4"></script>
+    <script src="js/apps/gmail.js?v=1.1.0"></script>
+    <script src="js/apps/notepad.js?v=1.0.1"></script>
+</body>
+</html>

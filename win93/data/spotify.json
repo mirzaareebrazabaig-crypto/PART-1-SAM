@@ -1,0 +1,611 @@
+[
+  {
+    "id": "playlist_happy",
+    "name": "Happy Vibes \ud83d\ude04",
+    "description": "Upbeat songs for good moods and celebrations.",
+    "songs": [
+      {
+        "id": "katy_firework",
+        "title": "Firework",
+        "artist": "Katy Perry",
+        "duration": "3:48",
+        "bg": "linear-gradient(135deg, #4300b0, #dd2476)",
+        "icon": "\ud83c\udf86"
+      },
+      {
+        "id": "owl_good_time",
+        "title": "Good Time",
+        "artist": "Owl City & Carly Rae Jepsen",
+        "duration": "3:26",
+        "bg": "linear-gradient(135deg, #ff9966, #ff5e62)",
+        "icon": "\u2600\ufe0f"
+      },
+      {
+        "id": "bep_feeling",
+        "title": "I Gotta Feeling",
+        "artist": "Black Eyed Peas",
+        "duration": "4:49",
+        "bg": "linear-gradient(135deg, #11998e, #38ef7d)",
+        "icon": "\ud83e\udd29"
+      },
+      {
+        "id": "bruno_just_the_way",
+        "title": "Just the Way You Are",
+        "artist": "Bruno Mars",
+        "duration": "3:40",
+        "bg": "linear-gradient(135deg, #f05053, #e1eec3)",
+        "icon": "\u2764\ufe0f"
+      },
+      {
+        "id": "katy_teenage_dream",
+        "title": "Teenage Dream",
+        "artist": "Katy Perry",
+        "duration": "3:47",
+        "bg": "linear-gradient(135deg, #ff758c, #ff7eb3)",
+        "icon": "\ud83c\udf6d"
+      },
+      {
+        "id": "authors_best_day",
+        "title": "Best Day of My Life",
+        "artist": "American Authors",
+        "duration": "3:14",
+        "bg": "linear-gradient(135deg, #f5af19, #f12711)",
+        "icon": "\ud83e\udd85"
+      },
+      {
+        "id": "lmfao_party_rock",
+        "title": "Party Rock Anthem",
+        "artist": "LMFAO",
+        "duration": "4:24",
+        "bg": "linear-gradient(135deg, #f857a6, #ff5858)",
+        "icon": "\ud83d\udd76\ufe0f"
+      },
+      {
+        "id": "pharrell_happy",
+        "title": "Happy",
+        "artist": "Pharrell Williams",
+        "duration": "3:53",
+        "bg": "linear-gradient(135deg, #1d976c, #93f9b9)",
+        "icon": "\ud83c\udfa9"
+      },
+      {
+        "id": "taio_dynamite",
+        "title": "Dynamite",
+        "artist": "Taio Cruz",
+        "duration": "3:23",
+        "bg": "linear-gradient(135deg, #00c6ff, #0072ff)",
+        "icon": "\ud83e\udde8"
+      },
+      {
+        "id": "carly_call_me",
+        "title": "Call Me Maybe",
+        "artist": "Carly Rae Jepsen",
+        "duration": "3:13",
+        "bg": "linear-gradient(135deg, #ff0844, #ffb199)",
+        "icon": "\ud83d\udcde"
+      }
+    ]
+  },
+  {
+    "id": "playlist_heartbreak",
+    "name": "Heartbreak \ud83d\udc94",
+    "description": "Songs for sadness, loss, and reflection.",
+    "songs": [
+      {
+        "id": "perri_jar",
+        "title": "Jar of Hearts",
+        "artist": "Christina Perri",
+        "duration": "4:06",
+        "bg": "linear-gradient(135deg, #30cfd0, #330867)",
+        "icon": "\ud83c\udffa"
+      },
+      {
+        "id": "bruno_grenade",
+        "title": "Grenade",
+        "artist": "Bruno Mars",
+        "duration": "3:42",
+        "bg": "linear-gradient(135deg, #870000, #190a05)",
+        "icon": "\ud83d\udca3"
+      },
+      {
+        "id": "adele_someone",
+        "title": "Someone Like You",
+        "artist": "Adele",
+        "duration": "4:45",
+        "bg": "linear-gradient(135deg, #141e30, #243b55)",
+        "icon": "\ud83c\udf27\ufe0f"
+      },
+      {
+        "id": "bruno_just_the_way",
+        "title": "Just the Way You Are",
+        "artist": "Bruno Mars",
+        "duration": "3:40",
+        "bg": "linear-gradient(135deg, #f05053, #e1eec3)",
+        "icon": "\u2764\ufe0f"
+      },
+      {
+        "id": "adele_rolling",
+        "title": "Rolling in the Deep",
+        "artist": "Adele",
+        "duration": "3:48",
+        "bg": "linear-gradient(135deg, #0f2027, #203a43, #2c5364)",
+        "icon": "\ud83d\udda4"
+      },
+      {
+        "id": "coldplay_fix_you",
+        "title": "Fix You",
+        "artist": "Coldplay",
+        "duration": "4:55",
+        "bg": "linear-gradient(135deg, #3a7bd5, #3a6073)",
+        "icon": "\ud83d\udca1"
+      },
+      {
+        "id": "birdy_skinny",
+        "title": "Skinny Love",
+        "artist": "Birdy",
+        "duration": "3:21",
+        "bg": "linear-gradient(135deg, #e9e4f0, #d3d3d3)",
+        "icon": "\ud83c\udf43"
+      },
+      {
+        "id": "passenger_let_go",
+        "title": "Let Her Go",
+        "artist": "Passenger",
+        "duration": "4:12",
+        "bg": "linear-gradient(135deg, #3e5151, #decba4)",
+        "icon": "\ud83c\udf88"
+      },
+      {
+        "id": "coldplay_scientist",
+        "title": "The Scientist",
+        "artist": "Coldplay",
+        "duration": "5:09",
+        "bg": "linear-gradient(135deg, #4b6cb7, #182848)",
+        "icon": "\ud83e\uddea"
+      },
+      {
+        "id": "great_say_something",
+        "title": "Say Something",
+        "artist": "A Great Big World & Christina Aguilera",
+        "duration": "3:49",
+        "bg": "linear-gradient(135deg, #2c3e50, #000000)",
+        "icon": "\ud83c\udfbb"
+      }
+    ]
+  },
+  {
+    "id": "playlist_motivational",
+    "name": "Motivational \ud83d\udd25",
+    "description": "Songs that inspire confidence and determination.",
+    "songs": [
+      {
+        "id": "katy_firework",
+        "title": "Firework",
+        "artist": "Katy Perry",
+        "duration": "3:48",
+        "bg": "linear-gradient(135deg, #4300b0, #dd2476)",
+        "icon": "\ud83c\udf86"
+      },
+      {
+        "id": "katy_roar",
+        "title": "Roar",
+        "artist": "Katy Perry",
+        "duration": "3:43",
+        "bg": "linear-gradient(135deg, #f7b733, #fc4a1a)",
+        "icon": "\ud83d\udc2f"
+      },
+      {
+        "id": "eminem_not_afraid",
+        "title": "Not Afraid",
+        "artist": "Eminem",
+        "duration": "4:08",
+        "bg": "linear-gradient(135deg, #000428, #004e92)",
+        "icon": "\u270a"
+      },
+      {
+        "id": "guetta_titanium",
+        "title": "Titanium",
+        "artist": "David Guetta ft. Sia",
+        "duration": "4:05",
+        "bg": "linear-gradient(135deg, #70e1f5, #ffd194)",
+        "icon": "\ud83d\udee1\ufe0f"
+      },
+      {
+        "id": "bruno_just_the_way",
+        "title": "Just the Way You Are",
+        "artist": "Bruno Mars",
+        "duration": "3:40",
+        "bg": "linear-gradient(135deg, #f05053, #e1eec3)",
+        "icon": "\u2764\ufe0f"
+      },
+      {
+        "id": "eminem_lose_yourself",
+        "title": "Lose Yourself",
+        "artist": "Eminem",
+        "duration": "5:26",
+        "bg": "linear-gradient(135deg, #200122, #6f0000)",
+        "icon": "\ud83c\udfa4"
+      },
+      {
+        "id": "onerepublic_counting",
+        "title": "Counting Stars",
+        "artist": "OneRepublic",
+        "duration": "4:17",
+        "bg": "linear-gradient(135deg, #302b63, #24243e)",
+        "icon": "\u2b50"
+      },
+      {
+        "id": "clarkson_stronger",
+        "title": "Stronger (What Doesn't Kill You)",
+        "artist": "Kelly Clarkson",
+        "duration": "3:41",
+        "bg": "linear-gradient(135deg, #e52d27, #b31217)",
+        "icon": "\ud83d\udcaa"
+      },
+      {
+        "id": "script_hall",
+        "title": "Hall of Fame",
+        "artist": "The Script ft. will.i.am",
+        "duration": "3:22",
+        "bg": "linear-gradient(135deg, #f5af19, #f12711)",
+        "icon": "\ud83c\udfc6"
+      },
+      {
+        "id": "dragons_on_top",
+        "title": "On Top of the World",
+        "artist": "Imagine Dragons",
+        "duration": "3:12",
+        "bg": "linear-gradient(135deg, #a8ff78, #78ffd6)",
+        "icon": "\ud83c\udfd4\ufe0f"
+      }
+    ]
+  },
+  {
+    "id": "playlist_chill",
+    "name": "Chill & Relax \ud83c\udf19",
+    "description": "Calm songs for studying, reading, or unwinding.",
+    "songs": [
+      {
+        "id": "caillat_bubbly",
+        "title": "Bubbly",
+        "artist": "Colbie Caillat",
+        "duration": "3:16",
+        "bg": "linear-gradient(135deg, #fc00ff, #00dbde)",
+        "icon": "\ud83e\uddfc"
+      },
+      {
+        "id": "boyce_fast_car",
+        "title": "Fast Car",
+        "artist": "Boyce Avenue",
+        "duration": "5:04",
+        "bg": "linear-gradient(135deg, #333333, #dddddd)",
+        "icon": "\ud83c\udfce\ufe0f"
+      },
+      {
+        "id": "snow_chasing_cars",
+        "title": "Chasing Cars",
+        "artist": "Snow Patrol",
+        "duration": "4:27",
+        "bg": "linear-gradient(135deg, #61a146, #3b5936)",
+        "icon": "\ud83d\ude97"
+      },
+      {
+        "id": "phillips_home",
+        "title": "Home",
+        "artist": "Phillip Phillips",
+        "duration": "3:30",
+        "bg": "linear-gradient(135deg, #134e5e, #71b280)",
+        "icon": "\ud83c\udfe1"
+      },
+      {
+        "id": "bruno_just_the_way",
+        "title": "Just the Way You Are",
+        "artist": "Bruno Mars",
+        "duration": "3:40",
+        "bg": "linear-gradient(135deg, #f05053, #e1eec3)",
+        "icon": "\u2764\ufe0f"
+      },
+      {
+        "id": "sheeran_a_team",
+        "title": "The A Team",
+        "artist": "Ed Sheeran",
+        "duration": "4:18",
+        "bg": "linear-gradient(135deg, #2193b0, #6dd5ed)",
+        "icon": "\u26c5"
+      },
+      {
+        "id": "ezra_budapest",
+        "title": "Budapest",
+        "artist": "George Ezra",
+        "duration": "3:20",
+        "bg": "linear-gradient(135deg, #c31432, #240b36)",
+        "icon": "\ud83c\udff0"
+      },
+      {
+        "id": "mraz_lucky",
+        "title": "Lucky",
+        "artist": "Jason Mraz & Colbie Caillat",
+        "duration": "3:09",
+        "bg": "linear-gradient(135deg, #6a11cb, #2575fc)",
+        "icon": "\ud83c\udf40"
+      },
+      {
+        "id": "mraz_im_yours",
+        "title": "I'm Yours",
+        "artist": "Jason Mraz",
+        "duration": "4:02",
+        "bg": "linear-gradient(135deg, #11998e, #38ef7d)",
+        "icon": "\ud83c\udf34"
+      },
+      {
+        "id": "coldplay_yellow",
+        "title": "Yellow",
+        "artist": "Coldplay",
+        "duration": "4:29",
+        "bg": "linear-gradient(135deg, #ffe259, #ffa751)",
+        "icon": "\u2600\ufe0f"
+      }
+    ]
+  },
+  {
+    "id": "playlist_party",
+    "name": "Party Mode \ud83c\udf89",
+    "description": "High-energy dance hits and party favorites.",
+    "songs": [
+      {
+        "id": "lmfao_sexy",
+        "title": "Sexy and I Know It",
+        "artist": "LMFAO",
+        "duration": "3:19",
+        "bg": "linear-gradient(135deg, #fdfc47, #24fe41)",
+        "icon": "\ud83d\udd7a"
+      },
+      {
+        "id": "avicii_wake_me_up",
+        "title": "Wake Me Up",
+        "artist": "Avicii",
+        "duration": "4:07",
+        "bg": "linear-gradient(135deg, #e65c00, #F9D423)",
+        "icon": "\ud83c\udf05"
+      },
+      {
+        "id": "usher_dj_got_us",
+        "title": "DJ Got Us Fallin' In Love",
+        "artist": "Usher",
+        "duration": "3:42",
+        "bg": "linear-gradient(135deg, #1e130c, #9a8478)",
+        "icon": "\ud83c\udfa7"
+      },
+      {
+        "id": "pitbull_give_me",
+        "title": "Give Me Everything",
+        "artist": "Pitbull",
+        "duration": "4:12",
+        "bg": "linear-gradient(135deg, #ff0844, #ffb199)",
+        "icon": "\ud83e\ude90"
+      },
+      {
+        "id": "pitbull_timber",
+        "title": "Timber",
+        "artist": "Pitbull ft. Ke$ha",
+        "duration": "3:24",
+        "bg": "linear-gradient(135deg, #ee0979, #ff6a00)",
+        "icon": "\ud83e\udeb5"
+      },
+      {
+        "id": "bruno_just_the_way",
+        "title": "Just the Way You Are",
+        "artist": "Bruno Mars",
+        "duration": "3:40",
+        "bg": "linear-gradient(135deg, #f05053, #e1eec3)",
+        "icon": "\u2764\ufe0f"
+      },
+      {
+        "id": "guetta_turn_me_on",
+        "title": "Turn Me On",
+        "artist": "David Guetta ft. Nicki Minaj",
+        "duration": "3:19",
+        "bg": "linear-gradient(135deg, #b06ab3, #4568dc)",
+        "icon": "\u26a1"
+      },
+      {
+        "id": "avicii_levels",
+        "title": "Levels",
+        "artist": "Avicii",
+        "duration": "3:19",
+        "bg": "linear-gradient(135deg, #4facfe, #00f2fe)",
+        "icon": "\ud83c\udf9a\ufe0f"
+      },
+      {
+        "id": "rihanna_we_found_love",
+        "title": "We Found Love",
+        "artist": "Rihanna ft. Calvin Harris",
+        "duration": "3:35",
+        "bg": "linear-gradient(135deg, #00c6ff, #0072ff)",
+        "icon": "\u2728"
+      },
+      {
+        "id": "lmfao_party_rock",
+        "title": "Party Rock Anthem",
+        "artist": "LMFAO",
+        "duration": "4:24",
+        "bg": "linear-gradient(135deg, #f857a6, #ff5858)",
+        "icon": "\ud83d\udd76\ufe0f"
+      }
+    ]
+  },
+  {
+    "id": "playlist_nostalgia",
+    "name": "Nostalgia 2000s \ud83d\udcfc",
+    "description": "Iconic songs from the 2000\u20132010 era.",
+    "songs": [
+      {
+        "id": "white_hey_there",
+        "title": "Hey There Delilah",
+        "artist": "Plain White T's",
+        "duration": "3:52",
+        "bg": "linear-gradient(135deg, #eef2f3, #8e9eab)",
+        "icon": "\ud83c\udfb8"
+      },
+      {
+        "id": "linkin_numb",
+        "title": "Numb",
+        "artist": "Linkin Park",
+        "duration": "3:07",
+        "bg": "linear-gradient(135deg, #1f4037, #99f2c8)",
+        "icon": "\ud83d\udd78\ufe0f"
+      },
+      {
+        "id": "gaga_poker_face",
+        "title": "Poker Face",
+        "artist": "Lady Gaga",
+        "duration": "3:57",
+        "bg": "linear-gradient(135deg, #2c3e50, #fd746c)",
+        "icon": "\ud83c\udccf"
+      },
+      {
+        "id": "green_day_boulevard",
+        "title": "Boulevard of Broken Dreams",
+        "artist": "Green Day",
+        "duration": "4:20",
+        "bg": "linear-gradient(135deg, #283c86, #45a247)",
+        "icon": "\ud83d\udeb6"
+      },
+      {
+        "id": "coldplay_viva",
+        "title": "Viva La Vida",
+        "artist": "Coldplay",
+        "duration": "4:01",
+        "bg": "linear-gradient(135deg, #ff9966, #ff5e62)",
+        "icon": "\ud83d\udc51"
+      },
+      {
+        "id": "shakira_hips",
+        "title": "Hips Don't Lie",
+        "artist": "Shakira",
+        "duration": "3:38",
+        "bg": "linear-gradient(135deg, #f12711, #f5af19)",
+        "icon": "\ud83d\udc83"
+      },
+      {
+        "id": "lewis_bleeding",
+        "title": "Bleeding Love",
+        "artist": "Leona Lewis",
+        "duration": "4:22",
+        "bg": "linear-gradient(135deg, #f857a6, #ff5858)",
+        "icon": "\ud83d\udc94"
+      },
+      {
+        "id": "rihanna_umbrella",
+        "title": "Umbrella",
+        "artist": "Rihanna",
+        "duration": "4:35",
+        "bg": "linear-gradient(135deg, #3a6073, #3a7bd5)",
+        "icon": "\u2614"
+      },
+      {
+        "id": "bruno_just_the_way",
+        "title": "Just the Way You Are",
+        "artist": "Bruno Mars",
+        "duration": "3:40",
+        "bg": "linear-gradient(135deg, #f05053, #e1eec3)",
+        "icon": "\u2764\ufe0f"
+      },
+      {
+        "id": "onerepublic_apologize",
+        "title": "Apologize",
+        "artist": "OneRepublic",
+        "duration": "3:28",
+        "bg": "linear-gradient(135deg, #0f2027, #203a43, #2c5364)",
+        "icon": "\ud83c\udf27\ufe0f"
+      }
+    ]
+  },
+  {
+    "id": "playlist_emotional",
+    "name": "Emotional Mix \ud83c\udfad",
+    "description": "A blend of emotional, reflective, and meaningful songs.",
+    "songs": [
+      {
+        "id": "perri_thousand",
+        "title": "A Thousand Years",
+        "artist": "Christina Perri",
+        "duration": "4:45",
+        "bg": "linear-gradient(135deg, #ff9a9e, #fecfef)",
+        "icon": "\u23f3"
+      },
+      {
+        "id": "coldplay_fix_you",
+        "title": "Fix You",
+        "artist": "Coldplay",
+        "duration": "4:55",
+        "bg": "linear-gradient(135deg, #3a7bd5, #3a6073)",
+        "icon": "\ud83d\udca1"
+      },
+      {
+        "id": "passenger_let_go",
+        "title": "Let Her Go",
+        "artist": "Passenger",
+        "duration": "4:12",
+        "bg": "linear-gradient(135deg, #3e5151, #decba4)",
+        "icon": "\ud83c\udf88"
+      },
+      {
+        "id": "great_say_something",
+        "title": "Say Something",
+        "artist": "A Great Big World & Christina Aguilera",
+        "duration": "3:49",
+        "bg": "linear-gradient(135deg, #2c3e50, #000000)",
+        "icon": "\ud83c\udfbb"
+      },
+      {
+        "id": "huron_night",
+        "title": "The Night We Met",
+        "artist": "Lord Huron",
+        "duration": "3:28",
+        "bg": "linear-gradient(135deg, #000428, #004e92)",
+        "icon": "\ud83c\udf32"
+      },
+      {
+        "id": "onerepublic_counting",
+        "title": "Counting Stars",
+        "artist": "OneRepublic",
+        "duration": "4:17",
+        "bg": "linear-gradient(135deg, #302b63, #24243e)",
+        "icon": "\u2b50"
+      },
+      {
+        "id": "bruno_just_the_way",
+        "title": "Just the Way You Are",
+        "artist": "Bruno Mars",
+        "duration": "3:40",
+        "bg": "linear-gradient(135deg, #f05053, #e1eec3)",
+        "icon": "\u2764\ufe0f"
+      },
+      {
+        "id": "coldplay_scientist",
+        "title": "The Scientist",
+        "artist": "Coldplay",
+        "duration": "5:09",
+        "bg": "linear-gradient(135deg, #4b6cb7, #182848)",
+        "icon": "\ud83e\uddea"
+      },
+      {
+        "id": "gotye_somebody",
+        "title": "Somebody That I Used to Know",
+        "artist": "Gotye",
+        "duration": "4:04",
+        "bg": "linear-gradient(135deg, #7b4397, #dc2430)",
+        "icon": "\ud83d\udc65"
+      },
+      {
+        "id": "dragons_demons",
+        "title": "Demons",
+        "artist": "Imagine Dragons",
+        "duration": "2:57",
+        "bg": "linear-gradient(135deg, #232526, #414345)",
+        "icon": "\ud83d\ude08"
+      }
+    ]
+  }
+]

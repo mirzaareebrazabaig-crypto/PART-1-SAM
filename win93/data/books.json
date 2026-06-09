@@ -1,0 +1,79 @@
+[
+  {
+    "id": "percy_jackson",
+    "title": "Percy Jackson & The Olympians",
+    "author": "Rick Riordan",
+    "synopsis": "Percy Jackson discovers he is a demigod and is thrust into a world of Greek gods, monsters, and ancient prophecies. Together with his friends, he embarks on dangerous quests to save both the mortal and divine worlds.",
+    "rating": 3,
+    "theme": "linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d)",
+    "accentColor": "#fdbb2d",
+    "icon": "⚡",
+    "review": "Basically, this kid Percy finds out his dad is Poseidon, which is basically crazy because he thought he was just a normal kid. He basically goes to Camp Half-Blood and basically has to find Zeus's lightning bolt. It's basically a solid read, basically."
+  },
+  {
+    "id": "time_machine",
+    "title": "The Time Machine",
+    "author": "H. G. Wells",
+    "synopsis": "A Victorian scientist builds a machine that allows him to travel through time. His journey takes him far into humanity's future, where he encounters strange civilizations and uncovers the fate of mankind.",
+    "rating": 2,
+    "theme": "linear-gradient(135deg, #0f2027, #203a43, #2c5364)",
+    "accentColor": "#2c5364",
+    "icon": "⏳",
+    "review": "Basically, this guy travels to the future and basically meets the Eloi and Morlocks, who are basically what humans become. He basically gets his time machine stolen and basically has to fight to get get back. It's basically a quick read, basically."
+  },
+  {
+    "id": "hunger_games",
+    "title": "The Hunger Games",
+    "author": "Suzanne Collins",
+    "synopsis": "In the dystopian nation of Panem, Katniss Everdeen volunteers to compete in a televised battle-to-the-death competition, sparking events that could change her world forever.",
+    "rating": 4,
+    "theme": "linear-gradient(135deg, #870000, #190a05)",
+    "accentColor": "#ffaa00",
+    "icon": "🏹",
+    "review": "Basically, they throw twenty-four kids into an arena to basically fight to the death on live TV. Katniss basically volunteers for her sister and basically uses her archery skills to survive. It's basically intense and basically keeps you on edge, basically."
+  },
+  {
+    "id": "the_martian",
+    "title": "The Martian",
+    "author": "Andy Weir",
+    "synopsis": "After being stranded alone on Mars following a failed mission, astronaut Mark Watney must rely on science, engineering, and determination to survive until rescue is possible.",
+    "rating": 5,
+    "theme": "linear-gradient(135deg, #e65c00, #f9d423)",
+    "accentColor": "#f9d423",
+    "icon": "🚀",
+    "review": "Basically, Mark Watney gets left behind on Mars and basically has to science his way out of dying. He basically grows potatoes in his own waste, which is basically gross but basically works. He basically survives, basically. The best book ever, basically."
+  },
+  {
+    "id": "billionaire_boy",
+    "title": "Billionaire Boy",
+    "author": "David Walliams",
+    "synopsis": "Joe Spud is the richest boy in the country, but all the money in the world cannot buy true friendship. He learns valuable lessons about happiness and relationships.",
+    "rating": 2,
+    "theme": "linear-gradient(135deg, #11998e, #38ef7d)",
+    "accentColor": "#ffffff",
+    "icon": "💰",
+    "review": "Basically, this kid Joe has everything money can buy, but he basically has no friends. He basically tries to go to a normal school to basically make real friends but basically fails at first. It's basically about how money basically can't buy happiness, basically."
+  },
+  {
+    "id": "donovans_big_day",
+    "title": "Donovan's Big Day",
+    "author": "Lesléa Newman",
+    "synopsis": "Donovan helps prepare for an important family wedding and learns about love, family, and celebration while participating in a memorable special day.",
+    "rating": 1,
+    "theme": "linear-gradient(135deg, #ef32d9, #89fffd)",
+    "accentColor": "#89fffd",
+    "icon": "🔔",
+    "review": "Basically, it's just a day in the life of this kid Donovan who basically helps out at a wedding. He basically wears a suit and basically carries rings. It's basically a super simple children's story, basically."
+  },
+  {
+    "id": "hitchhikers_guide",
+    "title": "The Hitchhiker's Guide to the Galaxy",
+    "author": "Douglas Adams",
+    "synopsis": "Moments before Earth is destroyed, Arthur Dent is whisked away on a bizarre intergalactic adventure filled with eccentric aliens, absurd humor, and cosmic mysteries.",
+    "rating": 3,
+    "theme": "linear-gradient(135deg, #00c6ff, #0072ff)",
+    "accentColor": "#0072ff",
+    "icon": "🛸",
+    "review": "Basically, Earth gets demolished to basically make way for an intergalactic bypass. Arthur Dent basically hitches a ride on a spacecraft with Ford Prefect. They basically search for the meaning of life, which is basically 42, basically."
+  }
+]
