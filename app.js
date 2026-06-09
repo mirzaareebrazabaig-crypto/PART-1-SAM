@@ -478,7 +478,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.querySelectorAll('.draggable').forEach(item => {
         item.addEventListener('pointerdown', (e) => {
-            if (window.gameState.roomsLocked) return;
+            if (window.gameState.roomsLocked) {
+                openCloseup(item.dataset.item);
+                return;
+            }
             if(e.button !== 0 && e.pointerType === 'mouse') return; // only left click
             isPointerDown = true;
             hasMoved = false;
