@@ -662,13 +662,48 @@ body.crossword-mode-active .desk-light {
   color: #1c1815;
   text-transform: uppercase;
   caret-color: transparent;
-  padding: 8px 0 0 0;
+  padding: 0;
   margin: 0;
   box-sizing: border-box;
 }
 
 .cell-input:focus {
   outline: none;
+}
+
+/* Prevent native selection blue highlight on input text */
+.cell-input::selection {
+  background: transparent;
+  color: #1c1815;
+}
+.cell-input::-moz-selection {
+  background: transparent;
+  color: #1c1815;
+}
+.cell-input:disabled {
+  opacity: 1;
+  color: #1c1815;
+  cursor: default;
+}
+
+/* Persistent Correct/Incorrect Cell Styles */
+.grid-cell.cell-active.cell-correct {
+  background-color: #d1e7dd !important; /* retro soft pastel green */
+  border: 1px solid #badbcc !important;
+}
+.grid-cell.cell-active.cell-correct .cell-input {
+  color: #0f5132 !important; /* dark green text */
+}
+.grid-cell.cell-active.cell-correct .cell-input:disabled {
+  color: #0f5132 !important;
+}
+
+.grid-cell.cell-active.cell-incorrect {
+  background-color: #f8d7da !important; /* retro soft pastel red */
+  border: 1px solid #f5c2c7 !important;
+}
+.grid-cell.cell-active.cell-incorrect .cell-input {
+  color: #842029 !important; /* dark red text */
 }
 
 /* Correct/Incorrect animation states */

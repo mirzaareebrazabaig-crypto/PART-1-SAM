@@ -66,6 +66,55 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    function saveGameState() {
+        try {
+            const placements = [];
+            document.querySelectorAll('.draggable').forEach(el => {
+                const inInventory = el.classList.contains('in-inventory');
+                const parentId = el.parentNode ? el.parentNode.id : '';
+                placements.push({
+                    item: el.dataset.item,
+                    inInventory: inInventory,
+                    parentId: parentId,
+                    left: el.style.left,
+                    top: el.style.top,
+                    position: el.style.position
+                });
+            });
+
+            const crosswordInputs = {};
+            document.querySelectorAll('.cell-input').forEach(input => {
+                const row = input.dataset.row;
+                const col = input.dataset.col;
+                if (row !== undefined && col !== undefined && input.value !== "") {
+                    crosswordInputs[`${row}_${col}`] = input.value;
+                }
+            });
+
+            const stateToSave = {
+                teamName: window.gameState.teamName,
+                sessionToken: window.gameState.sessionToken,
+                startTime: window.gameState.startTime,
+                roomsLocked: window.gameState.roomsLocked,
+                roomsScore: window.gameState.roomsScore,
+                roomsTime: window.gameState.roomsTime,
+                crosswordCompleted: window.gameState.crosswordCompleted,
+                totalTime: window.gameState.totalTime,
+                secretCells: window.gameState.secretCells,
+                isComputerUnlocked: isComputerUnlocked,
+                currentAge: currentAge,
+                currentMode: document.body.classList.contains('crossword-mode-active') ? 'crossword' : 'rooms',
+                placements: placements,
+                crosswordInputs: crosswordInputs
+            };
+
+            localStorage.setItem('project_rewind_game_state', JSON.stringify(stateToSave));
+        } catch (e) {
+            console.error('Failed to save game state to localStorage:', e);
+        }
+    }
+    window.saveGameState = saveGameState;
+
     async function startSession(teamName) {
         try {
             const res = await fetch('/api/start-session', {
@@ -76,7 +125,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const data = await res.json();
             if (res.ok) {
                 window.gameState.sessionToken = data.token;
+                window.gameState.teamName = teamName;
+                window.gameState.startTime = Date.now();
                 applyScenario(data.startingPlacements);
+                saveGameState();
                 return true;
             } else {
                 alert(data.error || 'Failed to start session');
@@ -618,6 +670,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
         
+        saveGameState();
         draggedItem = null;
     });
 
@@ -725,6 +778,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Switch Audio Track
         startSoundscape(age);
+        saveGameState();
     }
 
     [5, 10, 15].forEach(age => {
@@ -799,6 +853,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 window.initCrosswordGrid();
             }
         }
+        saveGameState();
     }
     window.switchMode = switchMode; // Expose globally
 
@@ -1464,6 +1519,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         
                         setTimeout(() => {
                             isComputerUnlocked = true;
+                            saveGameState();
                             
                             // Close/hide the closeup modal
                             closeupModal.classList.remove('active');
@@ -1504,6 +1560,104 @@ document.addEventListener('DOMContentLoaded', () => {
             pInput.focus();
         }
     }
+
+    function restoreGameState() {
+        try {
+            const savedStateStr = localStorage.getItem('project_rewind_game_state');
+            if (!savedStateStr) return;
+
+            const state = JSON.parse(savedStateStr);
+            if (!state || !state.sessionToken || !state.teamName) return;
+
+            // Restore gameState values
+            window.gameState.teamName = state.teamName;
+            window.gameState.sessionToken = state.sessionToken;
+            window.gameState.startTime = state.startTime || Date.now();
+            window.gameState.roomsLocked = state.roomsLocked || false;
+            window.gameState.roomsScore = state.roomsScore || 0;
+            window.gameState.roomsTime = state.roomsTime || 0;
+            window.gameState.crosswordCompleted = state.crosswordCompleted || false;
+            window.gameState.totalTime = state.totalTime || 0;
+            window.gameState.secretCells = state.secretCells || null;
+
+            isComputerUnlocked = state.isComputerUnlocked || false;
+            currentAge = state.currentAge || 5;
+            gameStarted = true;
+
+            // Update team name input in UI
+            const teamInputEl = document.getElementById('team-name-input');
+            if (teamInputEl) teamInputEl.value = state.teamName;
+
+            // Hide landing screen
+            if (landingScreen) landingScreen.classList.remove('active');
+
+            // Restore placements
+            if (state.placements) {
+                state.placements.forEach(p => {
+                    const el = document.querySelector(`.draggable[data-item="${p.item}"]`);
+                    if (el) {
+                        if (p.inInventory) {
+                            el.classList.add('in-inventory');
+                            el.style.position = '';
+                            el.style.left = '';
+                            el.style.top = '';
+                            el.style.width = '';
+                            el.style.height = '';
+                            if (inventorySlots) inventorySlots.appendChild(el);
+                        } else {
+                            el.classList.remove('in-inventory');
+                            el.style.position = p.position || 'absolute';
+                            el.style.left = p.left || '';
+                            el.style.top = p.top || '';
+                            const parent = document.getElementById(p.parentId);
+                            if (parent) {
+                                parent.appendChild(el);
+                            }
+                        }
+                    }
+                });
+            }
+
+            // Restore rooms locked UI states
+            if (window.gameState.roomsLocked) {
+                btnFinishGame.disabled = true;
+                btnFinishGame.textContent = 'Room Placements Locked';
+                btnFinishGame.style.opacity = '0.5';
+
+                document.querySelectorAll('.draggable').forEach(el => {
+                    el.style.cursor = 'pointer';
+                });
+
+                const btnHeaderCrossword = document.getElementById('btn-header-crossword');
+                if (btnHeaderCrossword) {
+                    btnHeaderCrossword.style.display = 'flex';
+                }
+            }
+
+            // Switch to correct mode UI
+            if (state.currentMode === 'crossword' || window.gameState.roomsLocked) {
+                switchMode('crossword');
+            } else {
+                switchMode('rooms');
+                changeRoom(currentAge);
+            }
+
+            // Restore full screen OS if computer is unlocked
+            if (isComputerUnlocked) {
+                const fsContainer = document.getElementById('fullscreen-os-container');
+                const fsIframe = document.getElementById('fullscreen-os-iframe');
+                if (fsContainer && fsIframe) {
+                    fsContainer.style.display = 'block';
+                    fsIframe.src = '/win93/index.html';
+                }
+            }
+        } catch (e) {
+            console.error('Failed to restore game state from localStorage:', e);
+        }
+    }
+
+    // Trigger restoration on page load
+    restoreGameState();
 
     // --- DevTools and Automation Deterrents (AI Proofing) ---
     document.addEventListener('contextmenu', e => e.preventDefault());

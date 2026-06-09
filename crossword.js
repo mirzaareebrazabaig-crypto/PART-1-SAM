@@ -341,8 +341,14 @@ function handleInput(e) {
   const col = parseInt(e.target.dataset.col);
   
   e.target.value = e.target.value.toUpperCase();
-  playKeypressSound();
   
+  // Clear correct/incorrect states on edit
+  const cellContainer = e.target.parentElement;
+  if (cellContainer) {
+    cellContainer.classList.remove("cell-correct", "cell-incorrect");
+  }
+  
+  playKeypressSound();
   updateProgress();
   
   if (e.target.value !== "" && activeWord) {
@@ -360,6 +366,13 @@ function handleKeydown(e) {
   if (e.key.length === 1 && /^[a-zA-Z]$/.test(e.key) && !e.ctrlKey && !e.metaKey && !e.altKey) {
     e.preventDefault();
     e.target.value = e.key.toUpperCase();
+    
+    // Clear correct/incorrect states on the parent grid-cell
+    const cellContainer = e.target.parentElement;
+    if (cellContainer) {
+      cellContainer.classList.remove("cell-correct", "cell-incorrect");
+    }
+    
     playKeypressSound();
     updateProgress();
     moveFocusNext(row, col);
@@ -372,6 +385,9 @@ function handleKeydown(e) {
       playKeypressSound();
       if (e.target.value !== "") {
         e.target.value = "";
+        if (e.target.parentElement) {
+          e.target.parentElement.classList.remove("cell-correct", "cell-incorrect");
+        }
         updateProgress();
         moveFocusPrevious(row, col, false); // move focus back but don't clear the previous cell
       } else {
@@ -436,6 +452,9 @@ function moveFocusPrevious(row, col, clearPrev = true) {
     if (prevInput) {
       if (clearPrev) {
         prevInput.value = "";
+        if (prevInput.parentElement) {
+          prevInput.parentElement.classList.remove("cell-correct", "cell-incorrect");
+        }
       }
       prevInput.focus();
       updateProgress();
@@ -492,6 +511,10 @@ function updateProgress(incorrectList = []) {
       }
     }
   });
+
+  if (window.saveGameState) {
+    window.saveGameState();
+  }
 }
 
 // Final check and popup sequence calling backend api
@@ -532,11 +555,14 @@ async function validateReconstruction() {
       // Trigger Success Sequence
       window.gameState.crosswordCompleted = true;
       window.gameState.totalTime = data.formatted;
+      window.gameState.secretCells = data.secretCells; // Save secret cells in gameState!
       playSuccessSound();
       
       // Add success flash effect
       document.querySelectorAll(".grid-cell.cell-active").forEach(cell => {
         cell.classList.add("cell-validated-correct");
+        cell.classList.add("cell-correct"); // Persistent green highlight
+        cell.classList.remove("cell-incorrect");
       });
       
       // Highlight the special cells!
@@ -548,6 +574,11 @@ async function validateReconstruction() {
           }
         });
       }
+
+      // Disable all crossword inputs
+      document.querySelectorAll(".cell-input").forEach(input => {
+        input.disabled = true;
+      });
 
       // Update progress bar to 100%
       document.getElementById("progress-percentage").innerText = "100%";
@@ -576,22 +607,35 @@ async function validateReconstruction() {
       }, 500);
 
       // Highlight failed cells returned by server
-      if (data.failedCells) {
-        data.failedCells.forEach(key => {
-          const [r, c] = key.split("_");
-          const input = document.getElementById(`cell-${r}-${c}`);
-          if (input) {
-            const cellContainer = input.parentElement;
-            cellContainer.style.boxShadow = "inset 0 0 6px rgba(231, 76, 60, 0.6)";
-            setTimeout(() => {
-              cellContainer.style.boxShadow = "";
-            }, 1500);
-          }
-        });
+      const failedSet = new Set(data.failedCells || []);
+      
+      document.querySelectorAll(".grid-cell.cell-active").forEach(cell => {
+        const r = cell.dataset.row;
+        const c = cell.dataset.col;
+        const key = `${r}_${c}`;
+        const input = document.getElementById(`cell-${r}-${c}`);
         
-        // Update client progress bar and correct clues lists
-        updateProgress(data.failedCells);
-      }
+        if (input && input.value !== "") {
+          if (failedSet.has(key)) {
+            cell.classList.add("cell-incorrect");
+            cell.classList.remove("cell-correct");
+            
+            // Temporary red glow
+            cell.style.boxShadow = "inset 0 0 8px rgba(231, 76, 60, 0.9)";
+            setTimeout(() => {
+              cell.style.boxShadow = "";
+            }, 2000);
+          } else {
+            cell.classList.add("cell-correct");
+            cell.classList.remove("cell-incorrect");
+          }
+        } else {
+          cell.classList.remove("cell-correct", "cell-incorrect");
+        }
+      });
+      
+      // Update client progress bar and correct clues lists
+      updateProgress(data.failedCells);
     }
   } catch (err) {
     console.error('Error validating crossword:', err);
@@ -614,9 +658,72 @@ window.initCrosswordGrid = async function() {
 
     buildGridData();
     renderGrid();
+    
+    // Restore saved answers from localStorage if any
+    try {
+      const savedStateStr = localStorage.getItem('project_rewind_game_state');
+      if (savedStateStr) {
+        const savedState = JSON.parse(savedStateStr);
+        if (savedState && savedState.crosswordInputs) {
+          for (let key in savedState.crosswordInputs) {
+            const [r, c] = key.split("_");
+            const input = document.getElementById(`cell-${r}-${c}`);
+            if (input) {
+              input.value = savedState.crosswordInputs[key];
+            }
+          }
+        }
+      }
+    } catch(e) {
+      console.error("Failed to restore crossword inputs:", e);
+    }
+
     renderClues();
     setupEventListeners();
-    updateProgress(Object.keys(cellStateMap)); // initialize progress as 0%
+    
+    // Check if crossword was already completed in saved state
+    let wasCompleted = false;
+    let savedSecretCells = null;
+    try {
+      const savedStateStr = localStorage.getItem('project_rewind_game_state');
+      if (savedStateStr) {
+        const savedState = JSON.parse(savedStateStr);
+        if (savedState && savedState.crosswordCompleted) {
+          wasCompleted = true;
+          window.gameState.crosswordCompleted = true;
+          window.gameState.totalTime = savedState.totalTime;
+          savedSecretCells = savedState.secretCells;
+        }
+      }
+    } catch(e) {}
+
+    if (wasCompleted) {
+      // Add success styles and disable inputs
+      document.querySelectorAll(".grid-cell.cell-active").forEach(cell => {
+        cell.classList.add("cell-correct");
+      });
+      document.querySelectorAll(".cell-input").forEach(input => {
+        input.disabled = true;
+      });
+      document.getElementById("progress-percentage").innerText = "100%";
+      document.getElementById("progress-bar-fill").style.width = "100%";
+      if (window.gameState.totalTime) {
+        document.getElementById("crossword-final-time").innerHTML = `<span class="check">[✓]</span> TOTAL TIME ELAPSED: ${window.gameState.totalTime}`;
+      }
+      
+      // Highlight the special cells!
+      if (savedSecretCells) {
+        savedSecretCells.forEach(cell => {
+          const cellEl = document.querySelector(`.grid-cell[data-row="${cell.r}"][data-col="${cell.c}"]`);
+          if (cellEl) {
+            cellEl.classList.add("cell-special-highlight");
+          }
+        });
+      }
+      updateProgress([]);
+    } else {
+      updateProgress(Object.keys(cellStateMap)); // initialize progress
+    }
   } catch (err) {
     console.error('Error initializing crossword:', err);
   }
