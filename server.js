@@ -432,7 +432,45 @@ app.post('/api/verify-computer-password', (req, res) => {
         return res.json({ success: false, error: 'CROSSWORD NOT COMPLETED' });
     }
 
+    teamRecord.computerUnlocked = true;
+    writeScores(scores);
+
     res.json({ success: true });
+});
+
+// API: Get Computer File Contents (Securely fetches decrypted VFS files)
+app.post('/api/computer-file/:fileKey', (req, res) => {
+    const { token } = req.body;
+    const fileKey = req.params.fileKey;
+
+    if (!token || !fileKey) {
+        return res.status(400).json({ error: 'Missing required fields' });
+    }
+
+    const session = verifySessionToken(token);
+    if (!session) {
+        return res.status(403).json({ error: 'Invalid or missing session token.' });
+    }
+
+    const scores = readScores();
+    const teamRecord = scores.find(s => s.token === token);
+    
+    if (!teamRecord) {
+        return res.status(404).json({ error: 'Team session record not found.' });
+    }
+
+    // Verify computer has been unlocked
+    if (!teamRecord.computerUnlocked) {
+        return res.status(403).json({ error: 'ACCESS DENIED: Computer is locked.' });
+    }
+
+    // Return the secure file content
+    const html = gameData.COMPUTER_FILES[fileKey];
+    if (!html) {
+        return res.status(404).json({ error: 'File not found.' });
+    }
+
+    res.json({ html });
 });
 
 // API: Submit Google Form Final Time

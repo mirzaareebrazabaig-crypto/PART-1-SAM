@@ -1274,6 +1274,94 @@ const CUPBOARD_BOOKS = {
                 </div>`
 };
 
+const COMPUTER_FILES = {
+    acceptance: `
+        <div style="width:100%; text-align:left; box-sizing:border-box;">
+            <strong style="color:#2a9d8f; border-bottom:1px solid rgba(42,157,143,0.3); display:block; padding-bottom:5px; margin-bottom:10px;">EMAIL: stanford_admit.eml</strong>
+            <p style="color:#8ea2c0; font-size:0.75rem; margin:0 0 10px 0;">From: admissions@stanford.edu<br>Date: May 12, 2020<br>To: samrudh.sharma@amarillohigh.edu</p>
+            <p style="margin:5px 0; line-height:1.5; color:#eef1f6; font-size:0.8rem;">
+                Dear Samrudh,<br><br>
+                Congratulations! I am thrilled to inform you that you have been admitted to the <strong>Stanford University Class of 2024</strong>. 
+            </p>
+            <p style="margin:10px 0; line-height:1.5; color:#eef1f6; font-size:0.8rem;">
+                Your outstanding academic record, combined with your pioneering research proposal in Neural Engineering, made you a standout candidate. We are proud to offer you a spot in our undergraduate program.
+            </p>
+            <p style="margin:10px 0 0 0; line-height:1.5; color:#ffd166; font-size:0.8rem; font-weight:bold;">
+                Welcome to Stanford!
+            </p>
+        </div>`,
+    ielts: `
+        <div style="width:100%; text-align:left; box-sizing:border-box;">
+            <strong style="color:#2a9d8f; border-bottom:1px solid rgba(42,157,143,0.3); display:block; padding-bottom:5px; margin-bottom:10px;">EMAIL: ielts_report.eml</strong>
+            <p style="color:#8ea2c0; font-size:0.75rem; margin:0 0 10px 0;">From: results@ieltsessentials.com<br>Date: May 5, 2020<br>To: samrudh.sharma@amarillohigh.edu</p>
+            <p style="margin:5px 0; line-height:1.5; color:#eef1f6; font-size:0.8rem;">
+                Dear Candidate,<br><br>
+                Your IELTS Academic test results are now available. You have achieved your <strong>highest target score</strong>:
+            </p>
+            <p style="margin:10px 0; line-height:1.4; color:#eef1f6; font-size:0.8rem; background:rgba(255,255,255,0.05); padding:10px; border-radius:4px; font-family:monospace;">
+                • <strong>Listening:</strong> 9.0 &nbsp;&nbsp;&nbsp;&nbsp; • <strong>Reading:</strong> 9.0<br>
+                • <strong>Writing:</strong> 8.0 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; • <strong>Speaking:</strong> 8.5<br>
+                ----------------------------------<br>
+                • <strong>OVERALL BAND SCORE:</strong> <span style="color:#2a9d8f; font-weight:bold; font-size:0.9rem;">8.5 (Expert User)</span>
+            </p>
+            <p style="margin:10px 0 0 0; line-height:1.5; color:#eef1f6; font-size:0.8rem;">
+                This score fulfills the English proficiency requirements for all top-tier international institutions, including Stanford University.
+            </p>
+        </div>`,
+    prom: `
+        <div style="width:100%; text-align:left; box-sizing:border-box;">
+            <strong style="color:#e63946; border-bottom:1px solid rgba(230,57,70,0.3); display:block; padding-bottom:5px; margin-bottom:10px;">EMAIL DRAFT: draft_prom_night.eml</strong>
+            <p style="color:#8ea2c0; font-size:0.75rem; margin:0 0 10px 0;">To: emma.j@amarillohigh.edu<br>Date: June 9, 2020<br>Status: UNSENT DRAFT</p>
+            <div style="line-height:1.5; color:#eef1f6; font-size:0.8rem;">
+                <p style="margin: 0 0 10px 0;">I am writing this from my bedroom floor. My hands are still shaking. Tonight was supposed to be the best night. I spent weeks preparing everything perfectly. I convinced my parents about my outfit. I wore a modern suit to fit in. I thought Emma wanted to go with me. I was so completely wrong.</p>
+                <p style="margin: 0 0 10px 0;">We stood near the dance floor. Her friends walked over. I tried to make a joke. Emma looked at them and sneered. She mocked my dancing and my voice. She said I looked desperate asking her.</p>
+                <p style="margin: 0 0 10px 0;">The guys walked up. They saw Emma leading the mockery. They joined in instantly. They tossed around old insults. They called me "Stinky Sam."</p>
+                <p style="margin: 0 0 10px 0;">The worst part was Emma. She laughed right along with them.</p>
+                <p style="margin: 0 0 10px 0;">Everyone around us was watching. People recorded it on their phones.</p>
+                <p style="margin: 0 0 10px 0;">A massive lump formed in my throat.</p>
+                <p style="margin: 0 0 10px 0;">The first tear slipped out.</p>
+                <p style="margin: 0 0 10px 0;">One of the guys pointed it out to everyone.</p>
+                <p style="margin: 0 0 10px 0;">I could not take it anymore.</p>
+                <p style="margin: 0 0 10px 0;">I turned around and walked out.</p>
+                <p style="margin: 0 0 10px 0;">I was crying openly.</p>
+                <p style="margin: 0 0 10px 0;">I felt completely humiliated.</p>
+                <p style="margin: 0 0 10px 0;">I walked home in the dark.</p>
+                <p style="margin: 0;">I have never felt so alone.</p>
+            </div>
+        </div>`,
+    therapy: `
+        <div style="width:100%; text-align:left; box-sizing:border-box;">
+            <strong style="color:#2a9d8f; border-bottom:1px solid rgba(42,157,143,0.3); display:block; padding-bottom:5px; margin-bottom:10px;">LOG: therapy_session.log</strong>
+            <p style="color:#8ea2c0; font-size:0.8rem; margin:0 0 10px 0;">Date: October 12, 2020<br>Clinician: Dr. Aris</p>
+            <p style="margin:5px 0; line-height:1.5; color:#eef1f6; font-size:0.85rem;">
+                Patient Samrudh Sharma (Age 15) exhibits deep symptoms of isolation and emotional neglect. Since his relocation, his primary attachment was his dog, Buddy, whose recent passing triggered a severe depressive state.
+            </p>
+            <p style="margin:10px 0 0 0; line-height:1.5; color:#eef1f6; font-size:0.85rem;">
+                <em>Key Observation:</em> When asked about his outlook on the future, he repeatedly stated that his isolation and academic pressure make his withdrawal feel <strong>"inevitable"</strong>.
+            </p>
+        </div>`,
+    timeline: `
+        <div style="width:100%; text-align:left; box-sizing:border-box;">
+            <strong style="color:#2a9d8f; border-bottom:1px solid rgba(42,157,143,0.3); display:block; padding-bottom:5px; margin-bottom:10px;">DATA: timeline_data.dat</strong>
+            <ul style="padding-left:15px; margin:5px 0 0 0; display:flex; flex-direction:column; gap:8px; color:#eef1f6; line-height:1.4; font-size:0.85rem;">
+                <li><strong>Era 2010 (Age 5):</strong> Solitary play. High creativity in drawings. Feels left behind.</li>
+                <li><strong>Era 2015 (Age 10):</strong> Bullying in middle school group chats. Escaped into gaming.</li>
+                <li><strong>Era 2020 (Age 15):</strong> Severe withdrawal. Co-authored neural engineering research paper, but zero social engagement.</li>
+            </ul>
+        </div>`,
+    medical: `
+        <div style="width:100%; text-align:left; box-sizing:border-box;">
+            <strong style="color:#2a9d8f; border-bottom:1px solid rgba(42,157,143,0.3); display:block; padding-bottom:5px; margin-bottom:10px;">REPORT: diagnosis_rpt.pdf</strong>
+            <p style="color:#8ea2c0; font-size:0.8rem; margin:0 0 10px 0;">Issuer: St. Jude Neurological Institute</p>
+            <p style="margin:5px 0; line-height:1.5; color:#eef1f6; font-size:0.85rem;">
+                Early-onset cognitive fragmentation. The patient's mind is locked in a loop of past traumas and memories.
+            </p>
+            <p style="margin:10px 0 0 0; line-height:1.5; color:#eef1f6; font-size:0.85rem;">
+                Timeline stabilization is required. If memory fragments (apology letter, bully texts, family drawing) are not returned to their correct eras, permanent brain death is projected.
+            </p>
+        </div>`
+};
+
 module.exports = {
   SCHOOLBAG_ITEMS,
   POSTER_ITEMS,
@@ -1286,5 +1374,6 @@ module.exports = {
   yearbookStudents,
   WORDS_METADATA,
   LORE_DATA,
+  COMPUTER_FILES,
   COMPUTER_PASSWORD: 'inevitable'
 };
