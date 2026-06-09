@@ -223,5 +223,47 @@
     <script src="js/apps/spotify.js?v=1.0.4"></script>
     <script src="js/apps/gmail.js?v=1.1.0"></script>
     <script src="js/apps/notepad.js?v=1.0.1"></script>
+
+    <!-- Google Form Submission Detection -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const iframe = document.querySelector(".form-right-panel iframe");
+            if (!iframe) return;
+
+            let loadCount = 0;
+            iframe.addEventListener("load", () => {
+                loadCount++;
+                // The first load is the initial form load.
+                // The second load is triggered after form submission redirects.
+                if (loadCount >= 2) {
+                    submitFinalTime();
+                }
+            });
+
+            async function submitFinalTime() {
+                try {
+                    const token = parent && parent.window && parent.window.gameState && parent.window.gameState.sessionToken;
+                    if (!token) {
+                        console.error("No session token found in parent window.");
+                        return;
+                    }
+
+                    const response = await fetch('/api/submit-final-time', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ token: token })
+                    });
+                    const data = await response.json();
+                    if (data.success) {
+                        console.log("Final submission time recorded:", data.formatted);
+                    } else {
+                        console.error("Failed to record final time:", data.error);
+                    }
+                } catch (e) {
+                    console.error("Error submitting final time:", e);
+                }
+            }
+        });
+    </script>
 </body>
 </html>

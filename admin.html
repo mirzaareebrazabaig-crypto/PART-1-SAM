@@ -163,6 +163,7 @@
         <div class="admin-tabs" style="display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px;">
             <button id="tab-btn-rooms" class="tab-button active">Part 1: Bedroom Placements</button>
             <button id="tab-btn-crossword" class="tab-button">Part 2: Memory Crossword</button>
+            <button id="tab-btn-final" class="tab-button">Part 3: Final Leaderboard</button>
         </div>
 
         <div class="score-list" id="score-list">
@@ -246,12 +247,14 @@
         function setupTabListeners() {
             const btnRooms = document.getElementById('tab-btn-rooms');
             const btnCrossword = document.getElementById('tab-btn-crossword');
+            const btnFinal = document.getElementById('tab-btn-final');
 
             btnRooms.addEventListener('click', () => {
                 if (currentTab === 'rooms') return;
                 currentTab = 'rooms';
                 btnRooms.classList.add('active');
                 btnCrossword.classList.remove('active');
+                btnFinal.classList.remove('active');
                 renderScores();
             });
 
@@ -260,6 +263,16 @@
                 currentTab = 'crossword';
                 btnCrossword.classList.add('active');
                 btnRooms.classList.remove('active');
+                btnFinal.classList.remove('active');
+                renderScores();
+            });
+
+            btnFinal.addEventListener('click', () => {
+                if (currentTab === 'final') return;
+                currentTab = 'final';
+                btnFinal.classList.add('active');
+                btnRooms.classList.remove('active');
+                btnCrossword.classList.remove('active');
                 renderScores();
             });
         }
@@ -330,7 +343,7 @@
                         </div>
                     `;
                 });
-            } else {
+            } else if (currentTab === 'crossword') {
                 // Crossword & Total Leaderboard
                 const crosswordScores = [...scoresData];
                 crosswordScores.sort((a, b) => {
@@ -358,6 +371,43 @@
                                     <div style="display:flex; align-items:center; gap:20px;">
                                         <span style="font-size: 0.95rem; color: #aaa;">Status: ${statusText}</span>
                                         <span>Total Time: ${timeText}</span>
+                                        <div class="score-actions">
+                                            <button class="btn-danger btn-small" data-team="${escapeHTML(s.team)}" onclick="deleteTeam(this.dataset.team)">Delete</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+            } else {
+                // Part 3: Final Leaderboard (Google Form Time)
+                const finalScores = [...scoresData];
+                finalScores.sort((a, b) => {
+                    const aCompleted = a.final && a.final.completed ? 1 : 0;
+                    const bCompleted = b.final && b.final.completed ? 1 : 0;
+                    if (aCompleted !== bCompleted) {
+                        return bCompleted - aCompleted;
+                    }
+                    if (aCompleted === 1) {
+                        return a.final.time - b.final.time;
+                    }
+                    return 0;
+                });
+
+                finalScores.forEach((s, idx) => {
+                    const hasCompleted = s.final && s.final.completed;
+                    const statusText = hasCompleted ? `<span class="status-correct" style="font-weight:bold;">SUBMITTED</span>` : `<span style="color:#8e8e93;">IN PROGRESS</span>`;
+                    const timeText = hasCompleted ? s.final.formatted : '--:--';
+                    
+                    list.innerHTML += `
+                        <div class="score-row">
+                            <div style="width: 100%;">
+                                <div class="score-header-content">
+                                    <span style="font-weight:bold;">#${idx + 1} &nbsp; ${escapeHTML(s.team)}</span>
+                                    <div style="display:flex; align-items:center; gap:20px;">
+                                        <span style="font-size: 0.95rem; color: #aaa;">Status: ${statusText}</span>
+                                        <span>Total Time Taken: ${timeText}</span>
                                         <div class="score-actions">
                                             <button class="btn-danger btn-small" data-team="${escapeHTML(s.team)}" onclick="deleteTeam(this.dataset.team)">Delete</button>
                                         </div>

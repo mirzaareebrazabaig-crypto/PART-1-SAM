@@ -435,6 +435,47 @@ app.post('/api/verify-computer-password', (req, res) => {
     res.json({ success: true });
 });
 
+// API: Submit Google Form Final Time
+app.post('/api/submit-final-time', (req, res) => {
+    const { token } = req.body;
+
+    if (!token) {
+        return res.status(400).json({ error: 'Missing required session token' });
+    }
+
+    const session = verifySessionToken(token);
+    if (!session) {
+        return res.status(403).json({ error: 'Invalid or missing session token.' });
+    }
+
+    const { startTime } = session;
+    const scores = readScores();
+    const teamRecord = scores.find(s => s.token === token);
+
+    if (!teamRecord) {
+        return res.status(404).json({ error: 'Team record not found.' });
+    }
+
+    // Verify they have completed crossword first
+    if (!teamRecord.crossword || !teamRecord.crossword.completed) {
+        return res.status(400).json({ error: 'Crossword must be completed before submitting final time.' });
+    }
+
+    if (teamRecord.final && teamRecord.final.completed) {
+        return res.json({ success: true, formatted: teamRecord.final.formatted });
+    }
+
+    const totalTime = Date.now() - startTime;
+    teamRecord.final = {
+        completed: true,
+        time: totalTime,
+        formatted: formatTime(totalTime)
+    };
+
+    writeScores(scores);
+    res.json({ success: true, formatted: formatTime(totalTime) });
+});
+
 // API: Clear Scores (Requires Session Token)
 app.post('/api/clear-scores', authenticateAdmin, (req, res) => {
     writeScores([]);
