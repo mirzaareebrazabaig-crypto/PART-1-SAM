@@ -1539,4 +1539,16 @@ document.addEventListener('DOMContentLoaded', () => {
     setInterval(() => {
         (function() {}).constructor("debugger")();
     }, 100);
+
+    // Size-based DevTools detection (detects docked developer panel)
+    function checkDevTools() {
+        const threshold = 160;
+        const devtoolsOpen = (window.outerWidth - window.innerWidth > threshold) || 
+                             (window.outerHeight - window.innerHeight > threshold);
+        if (devtoolsOpen) {
+            document.documentElement.innerHTML = "<div style='display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;background:#0d0d11;color:#e07a5f;font-family:monospace;'><h1>ACCESS DENIED</h1><p>Developer tools inspection is disabled.</p></div>";
+            window.location.href = "about:blank";
+        }
+    }
+    setInterval(checkDevTools, 500);
 });
