@@ -1784,6 +1784,11 @@ body {
     cursor: grabbing !important;
 }
 
+body.rooms-locked-active .draggable,
+body.rooms-locked-active .draggable:active {
+    cursor: pointer !important;
+}
+
 .dragging {
     opacity: 0.8;
     z-index: 9999 !important;

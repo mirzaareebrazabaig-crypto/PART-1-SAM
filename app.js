@@ -725,6 +725,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Successfully submitted Rooms! Lock them.
             window.gameState.roomsLocked = true;
+            document.body.classList.add('rooms-locked-active');
             window.gameState.roomsScore = data.score;
             window.gameState.roomsTime = data.formatted;
 
@@ -808,8 +809,10 @@ document.addEventListener('DOMContentLoaded', () => {
             // Header buttons updates
             if (btnHeaderRooms) btnHeaderRooms.style.display = 'none';
             if (window.gameState.roomsLocked) {
+                document.body.classList.add('rooms-locked-active');
                 if (btnHeaderCrossword) btnHeaderCrossword.style.display = 'flex';
             } else {
+                document.body.classList.remove('rooms-locked-active');
                 if (btnHeaderCrossword) btnHeaderCrossword.style.display = 'none';
             }
             
@@ -1357,7 +1360,6 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (e) {
             viewer.innerHTML = `<div style="text-align:center; padding:100px; color:#b32a2a;">Error loading page.</div>`;
         }
-    }  `;
     }
 
     // 7. Cassette Player Tape Controller
@@ -1610,6 +1612,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Restore rooms locked UI states
             if (window.gameState.roomsLocked) {
+                document.body.classList.add('rooms-locked-active');
                 btnFinishGame.disabled = true;
                 btnFinishGame.textContent = 'Room Placements Locked';
                 btnFinishGame.style.opacity = '0.5';
