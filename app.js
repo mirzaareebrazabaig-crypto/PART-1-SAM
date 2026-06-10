@@ -824,11 +824,6 @@ document.addEventListener('DOMContentLoaded', () => {
             crosswordLayout.style.display = 'none';
             viewport.classList.remove('crossword-active');
             document.body.classList.remove('crossword-mode-active');
-            
-            // Automatically open help/description modal when returning from crossword
-            if (helpModal) {
-                helpModal.classList.add('active');
-            }
         } else if (mode === 'crossword') {
             // Header title updates - hide age indicator and change title
             if (roomAgeIndicator) roomAgeIndicator.style.display = 'none';
@@ -1092,30 +1087,40 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ==========================================
     // COMPLEX CLOSEUP VIEWER CONTROLLERS
-    // ==========================================
-
-    // 1. Picture Book Flip Pages
-    function updatePictureBook() {
+    // ======================================    // 1. Picture Book Flip Pages
+    async function updatePictureBook() {
         const pagesWrapper = document.getElementById('book-pages-wrapper');
         if (!pagesWrapper) return;
         
-        const data = pictureBookPages[currentBookPage];
-        if (!data) return;
-        pagesWrapper.innerHTML = `
-            <div class="book-page-side left-side">
-                <p>${data.left}</p>
-            </div>
-            <div class="book-page-side right-side">
-                <p>${data.right}</p>
-            </div>
-        `;
+        pagesWrapper.innerHTML = `<div style="text-align:center; padding:50px; color:#888; width:100%;">Loading page...</div>`;
+        try {
+            const res = await fetch('/api/sub-item', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ parentId: 'picture-book', itemId: String(currentBookPage) })
+            });
+            const result = await res.json();
+            const data = result.data;
+            if (data) {
+                pagesWrapper.innerHTML = `
+                    <div class="book-page-side left-side">
+                        <p>${data.left}</p>
+                    </div>
+                    <div class="book-page-side right-side">
+                        <p>${data.right}</p>
+                    </div>
+                `;
+            }
+        } catch (e) {
+            pagesWrapper.innerHTML = `<div style="text-align:center; padding:50px; color:#b32a2a; width:100%;">Error loading page.</div>`;
+        }
         
         document.getElementById('btn-prev-page').disabled = (currentBookPage === 0);
         document.getElementById('btn-next-page').disabled = (currentBookPage === pictureBookPages.length - 1);
     }
 
     // 2. TV console DVD Simulator
-    function updateTV() {
+    async function updateTV() {
         const tvScreen = document.getElementById('tv-screen-large');
         if (!tvScreen) return;
 
@@ -1124,66 +1129,98 @@ document.addEventListener('DOMContentLoaded', () => {
             dvdTimer = null;
         }
 
-        const data = dvdVideos[activeDvd];
-        if (!data) return;
-        
         tvScreen.innerHTML = `<div class="tv-static"></div><div style="position:absolute; top:20px; left:20px; font-family:monospace; color:#0f0;">LOADING DVD...</div>`;
 
         triggerBeep(300, 0.1);
 
-        setTimeout(() => {
-            if (activeDvd === 'dvd-3') {
-                // Bullying clip (secret clip)
-                tvScreen.innerHTML = `
-                    <div class="tv-gameplay-simulation" style="background:#0c0000; justify-content:space-between; padding:20px;">
-                        <span style="font-family:monospace; color:#d90429; font-weight:bold; font-size:0.75rem; text-align:left; width:100%;">● REC [SECRET - 2015]</span>
-                        <div style="font-size:0.9rem; line-height:1.5; color:#d90429; font-family:'Architects Daughter';">
-                            ${data.desc}
-                        </div>
-                        <span style="font-family:monospace; color:#d90429; font-size:0.7rem; width:100%; text-align:right;">00:14 / 00:45</span>
-                    </div>
-                `;
-            } else {
-                let seconds = 0;
-                function drawMinecraftGameplay() {
+        try {
+            const res = await fetch('/api/sub-item', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ parentId: 'crt-tv-selection', itemId: activeDvd })
+            });
+            const result = await res.json();
+            const data = result.data;
+
+            setTimeout(() => {
+                if (!data) return;
+                if (activeDvd === 'dvd-3') {
+                    // Bullying clip (secret clip)
                     tvScreen.innerHTML = `
-                        <div class="tv-gameplay-simulation" style="background:#222; justify-content:space-between; padding:20px; color:#a3b18a;">
-                            <span style="font-family:monospace; color:#a3b18a; font-size:0.75rem; text-align:left; width:100%;">${data.title}</span>
-                            <div style="font-size:0.9rem; line-height:1.5; font-family:'Outfit'; color:#fff;">
-                                ${data.desc}<br>
-                                <span style="color:#a3b18a; font-size:0.75rem;">Time elapsed: ${seconds}s</span>
+                        <div class="tv-gameplay-simulation" style="background:#0c0000; justify-content:space-between; padding:20px;">
+                            <span style="font-family:monospace; color:#d90429; font-weight:bold; font-size:0.75rem; text-align:left; width:100%;">● REC [SECRET - 2015]</span>
+                            <div style="font-size:0.9rem; line-height:1.5; color:#d90429; font-family:'Architects Daughter';">
+                                ${data.desc}
                             </div>
-                            <span style="font-family:monospace; color:#a3b18a; font-size:0.7rem; width:100%; text-align:right;">${data.status}</span>
+                            <span style="font-family:monospace; color:#d90429; font-size:0.7rem; width:100%; text-align:right;">00:14 / 00:45</span>
                         </div>
                     `;
-                }
+                } else {
+                    let seconds = 0;
+                    function drawMinecraftGameplay() {
+                        tvScreen.innerHTML = `
+                            <div class="tv-gameplay-simulation" style="background:#222; justify-content:space-between; padding:20px; color:#a3b18a;">
+                                <span style="font-family:monospace; color:#a3b18a; font-size:0.75rem; text-align:left; width:100%;">${data.title}</span>
+                                <div style="font-size:0.9rem; line-height:1.5; font-family:'Outfit'; color:#fff;">
+                                    ${data.desc}<br>
+                                    <span style="color:#a3b18a; font-size:0.75rem;">Time elapsed: ${seconds}s</span>
+                                </div>
+                                <span style="font-family:monospace; color:#a3b18a; font-size:0.7rem; width:100%; text-align:right;">${data.status}</span>
+                            </div>
+                        `;
+                    }
 
-                drawMinecraftGameplay();
-                dvdTimer = setInterval(() => {
-                    seconds++;
                     drawMinecraftGameplay();
-                    if (seconds % 4 === 0) triggerBeep(440, 0.08);
-                }, 1000);
-            }
-        }, 1200);
+                    dvdTimer = setInterval(() => {
+                        seconds++;
+                        drawMinecraftGameplay();
+                        if (seconds % 4 === 0) triggerBeep(440, 0.08);
+                    }, 1000);
+                }
+            }, 1200);
+        } catch (e) {
+            tvScreen.innerHTML = `<div style="text-align:center; padding:50px; color:#b32a2a;">Error loading DVD.</div>`;
+        }
     }
 
     // 3. Schoolbag Items Explorer (2015)
-    function showSchoolbagItem(item) {
+    async function showSchoolbagItem(item) {
         const detailView = document.getElementById('schoolbag-details-view');
         if (!detailView) return;
-        detailView.innerHTML = schoolbagItems[item] || '';
+        detailView.innerHTML = '<div style="color:#666; font-family:monospace; padding:20px; text-align:center;">Loading...</div>';
+        try {
+            const res = await fetch('/api/sub-item', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ parentId: 'schoolbag', itemId: item })
+            });
+            const result = await res.json();
+            detailView.innerHTML = result.data || '';
+        } catch (e) {
+            detailView.innerHTML = '<div style="color:#b32a2a; font-family:monospace; padding:20px; text-align:center;">Error loading item.</div>';
+        }
     }
 
     // 4. Posters Explorer (Age 10)
-    function showPosterItem(item) {
+    async function showPosterItem(item) {
         const detailView = document.getElementById('poster-details-view');
         if (!detailView) return;
-        detailView.innerHTML = posterItems[item] || '';
+        detailView.innerHTML = '<div style="color:#666; font-family:monospace; padding:20px; text-align:center;">Loading...</div>';
+        try {
+            const res = await fetch('/api/sub-item', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ parentId: 'posters-collection', itemId: item })
+            });
+            const result = await res.json();
+            detailView.innerHTML = result.data || '';
+        } catch (e) {
+            detailView.innerHTML = '<div style="color:#b32a2a; font-family:monospace; padding:20px; text-align:center;">Error loading poster.</div>';
+        }
     }
 
     // 5. Bookshelf / Cupboard Books Explorer (2020)
-    function showCupboardBook(book) {
+    async function showCupboardBook(book) {
         const detailView = document.getElementById('cupboard-detail-view');
         if (!detailView) return;
 
@@ -1196,7 +1233,18 @@ document.addEventListener('DOMContentLoaded', () => {
             populateYearbookIndex();
             loadYearbookPage();
         } else {
-            detailView.innerHTML = cupboardBooks[book] || '';
+            detailView.innerHTML = '<div style="color:#666; font-family:monospace; padding:20px; text-align:center;">Loading...</div>';
+            try {
+                const res = await fetch('/api/sub-item', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ parentId: 'bookshelf-cupboard', itemId: book })
+                });
+                const result = await res.json();
+                detailView.innerHTML = result.data || '';
+            } catch (e) {
+                detailView.innerHTML = '<div style="color:#b32a2a; font-family:monospace; padding:20px; text-align:center;">Error loading book.</div>';
+            }
         }
     }
 
@@ -1245,58 +1293,71 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    function loadYearbookPage() {
+    async function loadYearbookPage() {
         const viewer = document.getElementById('yb-viewer');
         if (!viewer) return;
 
-        const data = yearbookStudents[currentYearbookLetter];
-        
-        if (!data) {
-            viewer.innerHTML = `<div style="text-align:center; padding:100px; color:#888;">Empty Page</div>`;
-            viewer.className = "yearbook-page-viewer";
-            return;
-        }
-
+        viewer.innerHTML = `<div style="text-align:center; padding:100px; color:#888;">Loading page...</div>`;
         viewer.className = "yearbook-page-viewer";
-        if (data.isCrumpled) {
-            viewer.classList.add('crumpled');
-        }
 
-        let photoHtml = '';
-        if (data.photoFile) {
-            photoHtml = `<div class="student-photo-slot" style="background-image: url('${data.photoFile}')">`;
-        } else {
-            photoHtml = `<div class="student-photo-slot"><svg viewBox="0 0 140 180" width="100%"><rect width="140" height="180" fill="${data.photoColor}"/><circle cx="70" cy="70" r="28" fill="white" opacity="0.3"/><text x="45" y="140" font-family="sans-serif" font-size="12" fill="white" opacity="0.5">STUDENT</text></svg>`;
-        }
-        
-        if (data.isVandalised) {
-            photoHtml += `<div class="vandalised-photo-overlay"></div>`;
-        }
-        photoHtml += `</div>`;
+        try {
+            const res = await fetch('/api/sub-item', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ parentId: 'bookshelf-cupboard-yearbook', itemId: currentYearbookLetter })
+            });
+            const result = await res.json();
+            const data = result.data;
+            
+            if (!data) {
+                viewer.innerHTML = `<div style="text-align:center; padding:100px; color:#888;">Empty Page</div>`;
+                return;
+            }
 
-        let quoteContent = `<p class="student-quote">${data.quote}</p>`;
-        if (data.isSam) {
-            quoteContent = `
-                <p class="student-quote" style="color:#555; font-weight:bold;">${data.quote}</p>
-                <div class="hate-scribble">${data.hateComment}</div>
-            `;
-        }
+            viewer.className = "yearbook-page-viewer";
+            if (data.isCrumpled) {
+                viewer.classList.add('crumpled');
+            }
 
-        viewer.innerHTML = `
-            ${data.isCrumpled ? '<div class="crumpled-shatter"></div>' : ''}
-            <div class="yearbook-student-profile">
-                ${photoHtml}
-                <div class="yearbook-student-info">
-                    <h4>${data.name}</h4>
-                    ${quoteContent}
-                    ${data.isVandalised ? '<p style="color:#b32a2a; font-family:\'Architects Daughter\'; font-weight:bold; font-size:0.9rem; margin-top:20px;">[VANDALISED BY SAM]</p>' : ''}
-                    ${data.notes ? `<p style="font-size:0.75rem; color:#888; margin-top:5px;">Note: ${data.notes}</p>` : ''}
+            let photoHtml = '';
+            if (data.photoFile) {
+                photoHtml = `<div class="student-photo-slot" style="background-image: url('${data.photoFile}')">`;
+            } else {
+                photoHtml = `<div class="student-photo-slot"><svg viewBox="0 0 140 180" width="100%"><rect width="140" height="180" fill="${data.photoColor}"/><circle cx="70" cy="70" r="28" fill="white" opacity="0.3"/><text x="45" y="140" font-family="sans-serif" font-size="12" fill="white" opacity="0.5">STUDENT</text></svg>`;
+            }
+            
+            if (data.isVandalised) {
+                photoHtml += `<div class="vandalised-photo-overlay"></div>`;
+            }
+            photoHtml += `</div>`;
+
+            let quoteContent = `<p class="student-quote">${data.quote}</p>`;
+            if (data.isSam) {
+                quoteContent = `
+                    <p class="student-quote" style="color:#555; font-weight:bold;">${data.quote}</p>
+                    <div class="hate-scribble">${data.hateComment}</div>
+                `;
+            }
+
+            viewer.innerHTML = `
+                ${data.isCrumpled ? '<div class="crumpled-shatter"></div>' : ''}
+                <div class="yearbook-student-profile">
+                    ${photoHtml}
+                    <div class="yearbook-student-info">
+                        <h4>${data.name}</h4>
+                        ${quoteContent}
+                        ${data.isVandalised ? '<p style="color:#b32a2a; font-family:\'Architects Daughter\'; font-weight:bold; font-size:0.9rem; margin-top:20px;">[VANDALISED BY SAM]</p>' : ''}
+                        ${data.notes ? `<p style="font-size:0.75rem; color:#888; margin-top:5px;">Note: ${data.notes}</p>` : ''}
+                    </div>
                 </div>
-            </div>
-            <div class="yearbook-footer">
-                AMARILLO HIGH SCHOOL — Class of 2020
-            </div>
-        `;
+                <div class="yearbook-footer">
+                    AMARILLO HIGH SCHOOL — Class of 2020
+                </div>
+            `;
+        } catch (e) {
+            viewer.innerHTML = `<div style="text-align:center; padding:100px; color:#b32a2a;">Error loading page.</div>`;
+        }
+    }  `;
     }
 
     // 7. Cassette Player Tape Controller

@@ -473,6 +473,39 @@ app.post('/api/computer-file/:fileKey', (req, res) => {
     res.json({ html });
 });
 
+// API: Get sub-item detail content dynamically (prevents hardcoding in app.js)
+app.post('/api/sub-item', (req, res) => {
+    const { parentId, itemId } = req.body;
+    if (!parentId || !itemId) {
+        return res.status(400).json({ error: 'Missing parentId or itemId' });
+    }
+
+    let data = null;
+    if (parentId === 'schoolbag') {
+        data = gameData.SCHOOLBAG_ITEMS[itemId];
+    } else if (parentId === 'posters-collection') {
+        data = gameData.POSTER_ITEMS[itemId];
+    } else if (parentId === 'bookshelf-cupboard') {
+        data = gameData.CUPBOARD_BOOKS[itemId];
+    } else if (parentId === 'bookshelf-cupboard-yearbook') {
+        data = gameData.yearbookStudents[itemId];
+    } else if (parentId === 'picture-book') {
+        const pageIdx = parseInt(itemId, 10);
+        data = gameData.pictureBookPages[pageIdx];
+    } else if (parentId === 'crt-tv-selection') {
+        data = gameData.dvdVideos[itemId];
+    } else if (parentId === 'cassette-tape') {
+        const idx = parseInt(itemId, 10);
+        data = gameData.cassetteSubtitles[idx];
+    }
+
+    if (data === undefined || data === null) {
+        return res.status(404).json({ error: 'Sub-item not found' });
+    }
+
+    res.json({ data });
+});
+
 // API: Submit Google Form Final Time
 app.post('/api/submit-final-time', (req, res) => {
     const { token } = req.body;

@@ -7,6 +7,17 @@
 const GRID_COLS = 10;
 const GRID_ROWS = 15;
 
+const PREFILLED_CELLS = {
+  "3_2": "A",   // AMARILLO
+  "11_1": "S",  // STINKYSAM
+  "13_1": "H",  // HEROBRINE
+  "7_0": "S",   // STANFORD
+  "0_2": "S",   // SEBASTIANVETTEL
+  "2_9": "S",   // SOCCER
+  "1_7": "I",   // IELTS
+  "1_5": "C"    // CORGI
+};
+
 let WORDS_METADATA = [];
 
 const SECURE_KEY = "PROJECT_REWIND_KEY_2026";
@@ -151,8 +162,20 @@ function renderGrid() {
         inputEl.setAttribute("data-col", c);
         inputEl.setAttribute("aria-label", `Cell at Row ${r + 1}, Column ${c + 1}`);
 
+        // Handle prefilled hint cells
+        const cellKey = `${r}_${c}`;
+        if (PREFILLED_CELLS[cellKey]) {
+          inputEl.value = PREFILLED_CELLS[cellKey];
+          inputEl.readOnly = true;
+          cellEl.classList.add("cell-prefilled");
+        }
+
         // Prevent inputs from accepting symbols, numbers, spaces
         inputEl.addEventListener("beforeinput", (e) => {
+          if (e.target.readOnly) {
+            e.preventDefault();
+            return;
+          }
           if (e.data && !/^[a-zA-Z]$/.test(e.data)) {
             e.preventDefault();
           }
@@ -323,13 +346,7 @@ function highlightWord(row, col, dir) {
       clueEl.classList.add("clue-active");
       const container = document.querySelector('.clues-container');
       if (container) {
-        const parentRect = container.getBoundingClientRect();
-        const childRect = clueEl.getBoundingClientRect();
-        const isVisible = (childRect.top >= parentRect.top && childRect.bottom <= parentRect.bottom);
-        if (!isVisible && container.scrollHeight > parentRect.height) {
-          const relativeOffsetTop = childRect.top - parentRect.top + container.scrollTop;
-          container.scrollTop = relativeOffsetTop - (parentRect.height / 2) + (childRect.height / 2);
-        }
+        container.scrollTop = clueEl.offsetTop - (container.clientHeight / 2) + (clueEl.clientHeight / 2);
       }
     }
   }
@@ -337,6 +354,10 @@ function highlightWord(row, col, dir) {
 
 // Handle typing inputs
 function handleInput(e) {
+  if (e.target.readOnly) {
+    e.preventDefault();
+    return;
+  }
   const row = parseInt(e.target.dataset.row);
   const col = parseInt(e.target.dataset.col);
   
@@ -361,6 +382,19 @@ function handleInput(e) {
 function handleKeydown(e) {
   const row = parseInt(e.target.dataset.row);
   const col = parseInt(e.target.dataset.col);
+
+  if (e.target.readOnly) {
+    if (e.key === "Backspace") {
+      e.preventDefault();
+      moveFocusPrevious(row, col, false);
+      return;
+    }
+    if (e.key.length === 1 && /^[a-zA-Z]$/.test(e.key) && !e.ctrlKey && !e.metaKey && !e.altKey) {
+      e.preventDefault();
+      moveFocusNext(row, col);
+      return;
+    }
+  }
 
   // Overwrite existing character if a letter is typed
   if (e.key.length === 1 && /^[a-zA-Z]$/.test(e.key) && !e.ctrlKey && !e.metaKey && !e.altKey) {
@@ -450,7 +484,7 @@ function moveFocusPrevious(row, col, clearPrev = true) {
   if (indexInWord >= 0 && indexInWord < activeWord.length) {
     const prevInput = document.getElementById(`cell-${prevY}-${prevX}`);
     if (prevInput) {
-      if (clearPrev) {
+      if (clearPrev && !prevInput.readOnly) {
         prevInput.value = "";
         if (prevInput.parentElement) {
           prevInput.parentElement.classList.remove("cell-correct", "cell-incorrect");
@@ -580,6 +614,13 @@ async function validateReconstruction() {
         input.disabled = true;
       });
 
+      // Disable submit button
+      const submitBtn = document.getElementById("submit-reconstruction-btn");
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerText = "STABILIZED";
+      }
+
       // Update progress bar to 100%
       document.getElementById("progress-percentage").innerText = "100%";
       document.getElementById("progress-bar-fill").style.width = "100%";
@@ -668,7 +709,7 @@ window.initCrosswordGrid = async function() {
           for (let key in savedState.crosswordInputs) {
             const [r, c] = key.split("_");
             const input = document.getElementById(`cell-${r}-${c}`);
-            if (input) {
+            if (input && !PREFILLED_CELLS[key]) {
               input.value = savedState.crosswordInputs[key];
             }
           }
@@ -705,6 +746,12 @@ window.initCrosswordGrid = async function() {
       document.querySelectorAll(".cell-input").forEach(input => {
         input.disabled = true;
       });
+      // Disable submit button
+      const submitBtn = document.getElementById("submit-reconstruction-btn");
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerText = "STABILIZED";
+      }
       document.getElementById("progress-percentage").innerText = "100%";
       document.getElementById("progress-bar-fill").style.width = "100%";
       if (window.gameState.totalTime) {
