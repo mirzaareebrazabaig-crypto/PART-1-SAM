@@ -7,16 +7,7 @@
 const GRID_COLS = 10;
 const GRID_ROWS = 15;
 
-const PREFILLED_CELLS = {
-  "3_2": "A",   // AMARILLO
-  "11_1": "S",  // STINKYSAM
-  "13_1": "H",  // HEROBRINE
-  "7_0": "S",   // STANFORD
-  "0_2": "S",   // SEBASTIANVETTEL
-  "2_9": "S",   // SOCCER
-  "1_7": "I",   // IELTS
-  "1_5": "C"    // CORGI
-};
+const PREFILLED_CELLS = {};
 
 let WORDS_METADATA = [];
 
@@ -358,6 +349,10 @@ function handleInput(e) {
     e.preventDefault();
     return;
   }
+  // Prevent duplicate focus advancement if keydown already shifted the active element
+  if (document.activeElement !== e.target) {
+    return;
+  }
   const row = parseInt(e.target.dataset.row);
   const col = parseInt(e.target.dataset.col);
   
@@ -633,9 +628,10 @@ async function validateReconstruction() {
 
       // Open success dossier popup
       setTimeout(() => {
-        alert("Unscramble the letters to obtain the password of Sam's computer present in room of age 15");
-        const modal = document.getElementById("success-overlay");
-        modal.style.display = "flex";
+        window.showCustomAlert("Unscramble the letters to obtain the password of Sam's computer present in room of age 15", () => {
+          const modal = document.getElementById("success-overlay");
+          modal.style.display = "flex";
+        });
       }, 600);
       
     } else {

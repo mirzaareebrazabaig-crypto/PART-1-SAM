@@ -3,6 +3,112 @@
    ========================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
+    
+    // Custom styled Alert Dialog system
+    window.showCustomAlert = function(message, callback) {
+        let alertOverlay = document.getElementById('custom-alert-overlay');
+        if (!alertOverlay) {
+            alertOverlay = document.createElement('div');
+            alertOverlay.id = 'custom-alert-overlay';
+            alertOverlay.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                background: rgba(10, 8, 6, 0.85);
+                backdrop-filter: blur(6px);
+                -webkit-backdrop-filter: blur(6px);
+                z-index: 9999999;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                opacity: 0;
+                transition: opacity 0.3s ease;
+            `;
+            
+            const alertBox = document.createElement('div');
+            alertBox.style.cssText = `
+                background: #ebdcb9;
+                background-image: url('assets/aged_newspaper.svg');
+                background-size: cover;
+                border: 2px solid #5a4225;
+                border-radius: 4px;
+                padding: 30px;
+                width: 90%;
+                max-width: 460px;
+                box-shadow: 0 15px 40px rgba(0,0,0,0.8), inset 0 0 20px rgba(0,0,0,0.05);
+                font-family: 'Special Elite', cursive;
+                color: #382818;
+                text-align: center;
+                transform: scale(0.9) rotate(-1deg);
+                transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            `;
+            
+            const alertText = document.createElement('p');
+            alertText.id = 'custom-alert-text';
+            alertText.style.cssText = `
+                font-size: 1.15rem;
+                line-height: 1.6;
+                margin-bottom: 25px;
+                color: #2b1d11;
+            `;
+            
+            const alertBtn = document.createElement('button');
+            alertBtn.id = 'custom-alert-btn';
+            alertBtn.innerText = 'OK';
+            alertBtn.style.cssText = `
+                background-color: #382818;
+                color: #dfd7c0;
+                border: 1px solid #1a1512;
+                padding: 10px 35px;
+                font-family: 'Special Elite', cursive;
+                font-size: 0.95rem;
+                letter-spacing: 1.5px;
+                cursor: pointer;
+                transition: background-color 0.2s, transform 0.1s, box-shadow 0.2s;
+                box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            `;
+            
+            alertBtn.addEventListener('mouseover', () => {
+                alertBtn.style.backgroundColor = '#4e3822';
+            });
+            alertBtn.addEventListener('mouseout', () => {
+                alertBtn.style.backgroundColor = '#382818';
+            });
+            alertBtn.addEventListener('active', () => {
+                alertBtn.style.transform = 'translateY(1px)';
+            });
+            
+            alertBox.appendChild(alertText);
+            alertBox.appendChild(alertBtn);
+            alertOverlay.appendChild(alertBox);
+            document.body.appendChild(alertOverlay);
+        }
+        
+        const alertText = document.getElementById('custom-alert-text');
+        const alertBtn = document.getElementById('custom-alert-btn');
+        const alertBox = alertOverlay.firstChild;
+        
+        alertText.innerText = message;
+        
+        const newAlertBtn = alertBtn.cloneNode(true);
+        alertBtn.parentNode.replaceChild(newAlertBtn, alertBtn);
+        
+        newAlertBtn.addEventListener('click', () => {
+            alertOverlay.style.opacity = '0';
+            alertBox.style.transform = 'scale(0.9) rotate(-1deg)';
+            setTimeout(() => {
+                alertOverlay.style.display = 'none';
+                if (callback) callback();
+            }, 300);
+        });
+        
+        alertOverlay.style.display = 'flex';
+        alertOverlay.offsetHeight;
+        alertOverlay.style.opacity = '1';
+        alertBox.style.transform = 'scale(1) rotate(-0.5deg)';
+    };
     // --- Global Game State ---
     window.gameState = {
         teamName: '',
@@ -46,6 +152,69 @@ document.addEventListener('DOMContentLoaded', () => {
     let timerInterval = null;
     let gameStartTime = 0;
     let isComputerUnlocked = false;
+
+    function startGameTimer(startTime) {
+        if (timerInterval) clearInterval(timerInterval);
+        gameStartTime = startTime;
+        gameStarted = true;
+        
+        const timerEl = document.getElementById('game-timer');
+        if (timerEl) {
+            if (!document.body.classList.contains('crossword-mode-active')) {
+                timerEl.style.display = 'block';
+            } else {
+                timerEl.style.display = 'none';
+            }
+        }
+        
+        const fsContainer = document.getElementById('fullscreen-os-container');
+        const fsTimerEl = document.getElementById('fullscreen-os-timer');
+        if (fsTimerEl) {
+            if (fsContainer && fsContainer.style.display === 'block') {
+                fsTimerEl.style.display = 'block';
+            } else {
+                fsTimerEl.style.display = 'none';
+            }
+        }
+        
+        timerInterval = setInterval(() => {
+            const elapsed = Date.now() - gameStartTime;
+            const m = Math.floor(elapsed / 60000).toString().padStart(2, '0');
+            const s = Math.floor((elapsed % 60000) / 1000).toString().padStart(2, '0');
+            const timeString = `${m}:${s}`;
+            
+            if (timerEl) timerEl.textContent = timeString;
+            
+            const crosswordTimerEl = document.getElementById('crossword-timer');
+            if (crosswordTimerEl) {
+                crosswordTimerEl.textContent = timeString;
+            }
+            
+            if (fsTimerEl) {
+                fsTimerEl.textContent = timeString;
+            }
+        }, 1000);
+    }
+
+    function showFullscreenOS() {
+        const fsContainer = document.getElementById('fullscreen-os-container');
+        const fsIframe = document.getElementById('fullscreen-os-iframe');
+        const fsTimerEl = document.getElementById('fullscreen-os-timer');
+        const timerEl = document.getElementById('game-timer');
+        
+        if (fsContainer && fsIframe) {
+            fsContainer.style.display = 'block';
+            if (!fsIframe.src || !fsIframe.src.endsWith('/win93/index.html')) {
+                fsIframe.src = '/win93/index.html';
+            }
+        }
+        if (fsTimerEl) {
+            fsTimerEl.style.display = 'block';
+        }
+        if (timerEl) {
+            timerEl.style.display = 'none';
+        }
+    }
 
     function applyScenario(startingPlacements) {
         if (!startingPlacements) return;
@@ -459,23 +628,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Start game timer only ONCE when they first close the help modal
         if (!gameStartTime) {
-            gameStarted = true;
-            gameStartTime = Date.now();
-            const timerEl = document.getElementById('game-timer');
-            timerEl.style.display = 'block';
-            
-            timerInterval = setInterval(() => {
-                const elapsed = Date.now() - gameStartTime;
-                const m = Math.floor(elapsed / 60000).toString().padStart(2, '0');
-                const s = Math.floor((elapsed % 60000) / 1000).toString().padStart(2, '0');
-                const timeString = `${m}:${s}`;
-                
-                timerEl.textContent = timeString;
-                const crosswordTimerEl = document.getElementById('crossword-timer');
-                if (crosswordTimerEl) {
-                    crosswordTimerEl.textContent = timeString;
-                }
-            }, 1000);
+            startGameTimer(Date.now());
             
             // Auto-start audio if they haven't explicitly muted
             if (!isMuted && !audioCtx) {
@@ -743,8 +896,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 btnHeaderCrossword.style.display = 'flex';
             }
 
-            alert("Solve the crossword to get the characters of Sam's computer password");
-            switchMode('crossword');
+            window.showCustomAlert("Solve the crossword to get the characters of Sam's computer password", () => {
+                switchMode('crossword');
+            });
 
         } catch (err) {
             console.error('Error submitting rooms score:', err);
@@ -1071,12 +1225,7 @@ document.addEventListener('DOMContentLoaded', () => {
             let item = e.currentTarget.dataset.item;
             if (item === 'computer-15' || item === 'computer-15-unlocked') {
                 if (isComputerUnlocked) {
-                    const fsContainer = document.getElementById('fullscreen-os-container');
-                    const fsIframe = document.getElementById('fullscreen-os-iframe');
-                    if (fsContainer && fsIframe) {
-                        fsContainer.style.display = 'block';
-                        fsIframe.src = '/win93/index.html';
-                    }
+                    showFullscreenOS();
                     return;
                 } else {
                     openCloseup('computer-15');
@@ -1518,12 +1667,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             cleanupCloseupEffects();
                             
                             // Display the retro OS in full screen
-                            const fsContainer = document.getElementById('fullscreen-os-container');
-                            const fsIframe = document.getElementById('fullscreen-os-iframe');
-                            if (fsContainer && fsIframe) {
-                                fsContainer.style.display = 'block';
-                                fsIframe.src = '/win93/index.html';
-                            }
+                            showFullscreenOS();
                         }, 1200);
                     } else {
                         errMsg.style.color = '#e07a5f';
@@ -1575,6 +1719,9 @@ document.addEventListener('DOMContentLoaded', () => {
             isComputerUnlocked = state.isComputerUnlocked || false;
             currentAge = state.currentAge || 5;
             gameStarted = true;
+
+            // Restart the timer loop on load
+            startGameTimer(window.gameState.startTime);
 
             // Update team name input in UI
             const teamInputEl = document.getElementById('team-name-input');
@@ -1637,12 +1784,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Restore full screen OS if computer is unlocked
             if (isComputerUnlocked) {
-                const fsContainer = document.getElementById('fullscreen-os-container');
-                const fsIframe = document.getElementById('fullscreen-os-iframe');
-                if (fsContainer && fsIframe) {
-                    fsContainer.style.display = 'block';
-                    fsIframe.src = '/win93/index.html';
-                }
+                showFullscreenOS();
             }
         } catch (e) {
             console.error('Failed to restore game state from localStorage:', e);
