@@ -1697,13 +1697,38 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function restoreGameState() {
+    async function restoreGameState() {
         try {
             const savedStateStr = localStorage.getItem('project_rewind_game_state');
             if (!savedStateStr) return;
 
             const state = JSON.parse(savedStateStr);
             if (!state || !state.sessionToken || !state.teamName) return;
+
+            // 1. If session is older than 2 hours, it is expired on the server. Clear and restart.
+            if (state.startTime && (Date.now() - state.startTime > 2 * 60 * 60 * 1000)) {
+                localStorage.removeItem('project_rewind_game_state');
+                window.location.reload();
+                return;
+            }
+
+            // 2. If rooms are locked, we must exist in server scores.
+            if (state.roomsLocked) {
+                try {
+                    const res = await fetch('/api/scores');
+                    if (res.ok) {
+                        const scores = await res.json();
+                        const teamExists = scores.some(s => s.team.trim().toLowerCase() === state.teamName.trim().toLowerCase());
+                        if (!teamExists) {
+                            localStorage.removeItem('project_rewind_game_state');
+                            window.location.reload();
+                            return;
+                        }
+                    }
+                } catch (err) {
+                    console.error('Failed to verify session status with server:', err);
+                }
+            }
 
             // Restore gameState values
             window.gameState.teamName = state.teamName;
