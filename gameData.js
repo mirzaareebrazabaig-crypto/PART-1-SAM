@@ -154,10 +154,10 @@ const cassetteSubtitles = [
         "Is anyone there?...",
         "I'm speaking quietly because Mrs. Patel is down in the study...",
         "Sometimes... it just feels very lonely.",
-        "Like I'm walking through an empty hallway while everyone else is in groups.",
+        "As if I'm walking through an empty hallway while everyone else is in groups.",
         "Mum and Dad left again. Packed suitcases by the front door. 'Sorry we couldn't make it, Sam.'",
         "They forgot my high school graduation was today... Mrs. Patel signed my report slip instead.",
-        "I kept trying to get their attention with my grades and projects, but it's like they only see their business trips.",
+        "I kept trying to get their attention with my grades and projects, but it's as though they only see their business trips.",
         "I miss Buddy so much. He was the only one who sat with me and actually listened.",
         "Now it's just... completely silent here. Every single day.",
         "I just want to finish school, pack my bags, and find a place where I actually belong..."
@@ -621,7 +621,7 @@ const LORE_DATA = {
                     <div class="photo-closeup-container">
                         <h3>Worn Soccer Ball</h3>
                         <p style="color:var(--text-muted); text-align:center; max-width:460px; font-size:0.9rem; line-height:1.5;">
-                            A slightly worn soccer ball resting on the floor. It looks like it hasn't been kicked in a while, perhaps because Sam doesn't have anyone to play with.
+                            A slightly worn soccer ball resting on the floor. It looks as if it hasn't been kicked in a while, perhaps because Sam doesn't have anyone to play with.
                         </p>
                     </div>`,
   'misplaced-graduation-album': `
@@ -1040,7 +1040,7 @@ const LORE_DATA = {
                             <h3 style="color:#ff4d6d; border-bottom-color:#ffccd5; text-align:center; margin-bottom: 15px;">Happy 5th Birthday, Sam!</h3>
                             <p style="font-size:0.95rem; line-height:1.6; color:#5c1a27; padding:10px;">
                                 "Dear Samrudh,<br>
-                                We are so sorry we couldn't fly back for your 5th birthday. The business meetings ran late. We hope you like this gift. Nanny will help you open it.<br><br>
+                                We are so sorry we couldn't fly back for your 5th birthday. The business meetings ran late. We hope you enjoy this gift. Nanny will help you open it.<br><br>
                                 With love,<br>
                                 Mom & Dad"
                             </p>
@@ -1119,7 +1119,7 @@ const LORE_DATA = {
                             <img src="action_figure_lore.png" alt="Battered Action Figures" style="width:100%; border-radius:8px; box-shadow: 0 4px 12px rgba(0,0,0,0.5);">
                         </div>
                         <p style="text-align:center; color:var(--text-muted); max-width:460px; font-size:0.9rem; line-height:1.6; margin-top:15px;">
-                            A couple of cheap, battered plastic action figures. One has its head twisted completely backwards, and both are covered in dark permanent marker scribbles. They look like they were the victims of a very violent imaginary war.
+                            A couple of cheap, battered plastic action figures. One has its head twisted completely backwards, and both are covered in dark permanent marker scribbles. They appear to have been the victims of a very violent imaginary war.
                         </p>
                     </div>`,
   'computer-15': `
@@ -1165,8 +1165,8 @@ const SCHOOLBAG_ITEMS = {
                     <div class="crumpled-shatter"></div>
                     <p style="margin-bottom:15px; font-weight:bold; font-size:1.15rem;">STINKY SAM'S SMELLY LUNCHBOX</p>
                     <p style="margin-bottom:15px;">
-                        Why do you eat that garbage? It smells like rotting compost.<br>
-                        Eat real food like everyone else, or eat outside on the grass with the bugs.
+                        Why do you eat that garbage? It smells of rotting compost.<br>
+                        Eat real food as others do, or eat outside on the grass with the bugs.
                     </p>
                     <p style="text-align:right; font-weight:bold;">— Class 5B (2015)</p>
                 </div>`,
@@ -1268,7 +1268,7 @@ const CUPBOARD_BOOKS = {
                             William scribbled hate remarks on my yearbook locker. No one did anything. Everyone just watched and laughed quietly, including Kanye West who turned away.
                         </p>
                         <p style="font-weight:bold; color:#b32a2a;">
-                            I spent the day alone in this empty room. Sometimes I feel like a ghost in my own house. I just want to finish school and escape this town.
+                            I spent the day alone in this empty room. Sometimes I feel as though I am a ghost in my own house. I just want to finish school and escape this town.
                         </p>
                     </div>
                 </div>`
@@ -1311,12 +1311,12 @@ const COMPUTER_FILES = {
     prom: `
         <div style="width:100%; text-align:left; box-sizing:border-box;">
             <strong style="color:#e63946; border-bottom:1px solid rgba(230,57,70,0.3); display:block; padding-bottom:5px; margin-bottom:10px;">EMAIL DRAFT: draft_prom_night.eml</strong>
-            <p style="color:#8ea2c0; font-size:0.75rem; margin:0 0 10px 0;">To: emma.j@amarillohigh.edu<br>Date: June 9, 2020<br>Status: UNSENT DRAFT</p>
+            <p style="color:#8ea2c0; font-size:0.75rem; margin:0 0 10px 0;">To: Claire.j@amarillohigh.edu<br>Date: June 9, 2020<br>Status: UNSENT DRAFT</p>
             <div style="line-height:1.5; color:#eef1f6; font-size:0.8rem;">
-                <p style="margin: 0 0 10px 0;">I am writing this from my bedroom floor. My hands are still shaking. Tonight was supposed to be the best night. I spent weeks preparing everything perfectly. I convinced my parents about my outfit. I wore a modern suit to fit in. I thought Emma wanted to go with me. I was so completely wrong.</p>
-                <p style="margin: 0 0 10px 0;">We stood near the dance floor. Her friends walked over. I tried to make a joke. Emma looked at them and sneered. She mocked my dancing and my voice. She said I looked desperate asking her.</p>
-                <p style="margin: 0 0 10px 0;">The guys walked up. They saw Emma leading the mockery. They joined in instantly. They tossed around old insults. They called me "Stinky Sam."</p>
-                <p style="margin: 0 0 10px 0;">The worst part was Emma. She laughed right along with them.</p>
+                <p style="margin: 0 0 10px 0;">I am writing this from my bedroom floor. My hands are still shaking. Tonight was supposed to be the best night. I spent weeks preparing everything perfectly. I convinced my parents about my outfit. I wore a modern suit to fit in. I thought Claire wanted to go with me. I was so completely wrong.</p>
+                <p style="margin: 0 0 10px 0;">We stood near the dance floor. Her friends walked over. I tried to make a joke. Claire looked at them and sneered. She mocked my dancing and my voice. She said I looked desperate asking her.</p>
+                <p style="margin: 0 0 10px 0;">The guys walked up. They saw Claire leading the mockery. They joined in instantly. They tossed around old insults. They called me "Stinky Sam."</p>
+                <p style="margin: 0 0 10px 0;">The worst part was Claire. She laughed right along with them.</p>
                 <p style="margin: 0 0 10px 0;">Everyone around us was watching. People recorded it on their phones.</p>
                 <p style="margin: 0 0 10px 0;">A massive lump formed in my throat.</p>
                 <p style="margin: 0 0 10px 0;">The first tear slipped out.</p>
@@ -1377,3 +1377,4 @@ module.exports = {
   COMPUTER_FILES,
   COMPUTER_PASSWORD: 'inevitable'
 };
+

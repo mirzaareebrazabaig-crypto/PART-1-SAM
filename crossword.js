@@ -7,7 +7,15 @@
 const GRID_COLS = 10;
 const GRID_ROWS = 15;
 
-const PREFILLED_CELLS = {};
+const PREFILLED_CELLS = {
+  "3_5": "R",
+  "3_7": "L",
+  "9_2": "V",
+  "11_5": "K",
+  "13_5": "B",
+  "7_3": "N",
+  "5_9": "C"
+};
 
 let WORDS_METADATA = [];
 
@@ -373,6 +381,48 @@ function handleInput(e) {
   }
 }
 
+// Helper to find next non-readonly cell in active word
+function getNextNonReadOnlyInput(row, col) {
+  if (!activeWord) return null;
+  const isVert = activeWord.dir === "V";
+  let curY = row;
+  let curX = col;
+  
+  while (true) {
+    curY += (isVert ? 1 : 0);
+    curX += (isVert ? 0 : 1);
+    const indexInWord = isVert ? (curY - activeWord.y) : (curX - activeWord.x);
+    if (indexInWord < 0 || indexInWord >= activeWord.length) {
+      return null;
+    }
+    const nextInput = document.getElementById(`cell-${curY}-${curX}`);
+    if (nextInput && !nextInput.readOnly) {
+      return nextInput;
+    }
+  }
+}
+
+// Helper to find previous non-readonly cell in active word
+function getPrevNonReadOnlyInput(row, col) {
+  if (!activeWord) return null;
+  const isVert = activeWord.dir === "V";
+  let curY = row;
+  let curX = col;
+  
+  while (true) {
+    curY -= (isVert ? 1 : 0);
+    curX -= (isVert ? 0 : 1);
+    const indexInWord = isVert ? (curY - activeWord.y) : (curX - activeWord.x);
+    if (indexInWord < 0 || indexInWord >= activeWord.length) {
+      return null;
+    }
+    const prevInput = document.getElementById(`cell-${curY}-${curX}`);
+    if (prevInput && !prevInput.readOnly) {
+      return prevInput;
+    }
+  }
+}
+
 // Handle keydown navigation
 function handleKeydown(e) {
   const row = parseInt(e.target.dataset.row);
@@ -386,7 +436,19 @@ function handleKeydown(e) {
     }
     if (e.key.length === 1 && /^[a-zA-Z]$/.test(e.key) && !e.ctrlKey && !e.metaKey && !e.altKey) {
       e.preventDefault();
-      moveFocusNext(row, col);
+      const nextInput = getNextNonReadOnlyInput(row, col);
+      if (nextInput) {
+        nextInput.focus();
+        nextInput.value = e.key.toUpperCase();
+        const nextRow = parseInt(nextInput.dataset.row);
+        const nextCol = parseInt(nextInput.dataset.col);
+        if (nextInput.parentElement) {
+          nextInput.parentElement.classList.remove("cell-correct", "cell-incorrect");
+        }
+        playKeypressSound();
+        updateProgress();
+        moveFocusNext(nextRow, nextCol);
+      }
       return;
     }
   }
@@ -445,39 +507,23 @@ function navigateGrid(row, col) {
 }
 
 function moveFocusNext(row, col) {
-  if (!activeWord) return;
-  const isVert = activeWord.dir === "V";
-  const nextY = row + (isVert ? 1 : 0);
-  const nextX = col + (isVert ? 0 : 1);
-  
-  const indexInWord = isVert ? (nextY - activeWord.y) : (nextX - activeWord.x);
-  if (indexInWord >= 0 && indexInWord < activeWord.length) {
-    const nextInput = document.getElementById(`cell-${nextY}-${nextX}`);
-    if (nextInput) {
-      nextInput.focus();
-    }
+  const nextInput = getNextNonReadOnlyInput(row, col);
+  if (nextInput) {
+    nextInput.focus();
   }
 }
 
 function moveFocusPrevious(row, col, clearPrev = true) {
-  if (!activeWord) return;
-  const isVert = activeWord.dir === "V";
-  const prevY = row - (isVert ? 1 : 0);
-  const prevX = col - (isVert ? 0 : 1);
-  
-  const indexInWord = isVert ? (prevY - activeWord.y) : (prevX - activeWord.x);
-  if (indexInWord >= 0 && indexInWord < activeWord.length) {
-    const prevInput = document.getElementById(`cell-${prevY}-${prevX}`);
-    if (prevInput) {
-      if (clearPrev && !prevInput.readOnly) {
-        prevInput.value = "";
-        if (prevInput.parentElement) {
-          prevInput.parentElement.classList.remove("cell-correct", "cell-incorrect");
-        }
+  const prevInput = getPrevNonReadOnlyInput(row, col);
+  if (prevInput) {
+    if (clearPrev && !prevInput.readOnly) {
+      prevInput.value = "";
+      if (prevInput.parentElement) {
+        prevInput.parentElement.classList.remove("cell-correct", "cell-incorrect");
       }
-      prevInput.focus();
-      updateProgress();
     }
+    prevInput.focus();
+    updateProgress();
   }
 }
 

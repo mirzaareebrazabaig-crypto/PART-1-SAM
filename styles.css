@@ -181,8 +181,8 @@ body {
 }
 
 .control-btn {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid var(--glass-border);
+    background: rgba(255, 255, 255, 0.15);
+    border: 1.5px solid rgba(255, 255, 255, 0.3);
     color: var(--text-light);
     border-radius: 20px;
     padding: 8px 16px;
@@ -192,12 +192,62 @@ body {
     display: flex;
     align-items: center;
     gap: 8px;
+    font-weight: 600;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.5);
     transition: var(--transition-smooth);
 }
 
 .control-btn:hover {
-    background: rgba(255, 255, 255, 0.1);
-    border-color: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.28);
+    border-color: rgba(255, 255, 255, 0.5);
+    box-shadow: 0 0 12px rgba(255, 255, 255, 0.25);
+    transform: translateY(-1px);
+}
+
+#btn-finish-game {
+    background: linear-gradient(135deg, #ffd166 0%, #f4a261 100%) !important;
+    border: 1.5px solid #ffd166 !important;
+    color: #1a1510 !important;
+    font-weight: 700 !important;
+    box-shadow: 0 4px 15px rgba(255, 209, 102, 0.35) !important;
+}
+#btn-finish-game .btn-text {
+    color: #1a1510 !important;
+}
+#btn-finish-game:hover {
+    background: linear-gradient(135deg, #ffe099 0%, #f6b583 100%) !important;
+    border-color: #ffe099 !important;
+    box-shadow: 0 6px 20px rgba(255, 209, 102, 0.55) !important;
+}
+
+#btn-header-crossword {
+    background: linear-gradient(135deg, #2a9d8f 0%, #264653 100%) !important;
+    border: 1.5px solid rgba(42, 157, 143, 0.6) !important;
+    color: #ffffff !important;
+    font-weight: 700 !important;
+    box-shadow: 0 4px 15px rgba(42, 157, 143, 0.35) !important;
+}
+#btn-header-crossword .btn-text {
+    color: #ffffff !important;
+}
+#btn-header-crossword:hover {
+    background: linear-gradient(135deg, #35b3a4 0%, #305869 100%) !important;
+    box-shadow: 0 6px 20px rgba(42, 157, 143, 0.55) !important;
+}
+
+#btn-header-rooms {
+    background: linear-gradient(135deg, #0077b6 0%, #03045e 100%) !important;
+    border: 1.5px solid rgba(0, 119, 182, 0.6) !important;
+    color: #ffffff !important;
+    font-weight: 700 !important;
+    box-shadow: 0 4px 15px rgba(0, 119, 182, 0.35) !important;
+}
+#btn-header-rooms .btn-text {
+    color: #ffffff !important;
+}
+#btn-header-rooms:hover {
+    background: linear-gradient(135deg, #0096c7 0%, #023e8a 100%) !important;
+    box-shadow: 0 6px 20px rgba(0, 119, 182, 0.55) !important;
 }
 
 #btn-help {
@@ -681,8 +731,8 @@ body {
     position: absolute;
     right: 20px;
     top: 20px;
-    background: rgba(255,255,255,0.05);
-    border: 1px solid var(--glass-border);
+    background: rgba(255,255,255,0.18);
+    border: 1.5px solid rgba(255,255,255,0.35);
     color: var(--text-light);
     width: 36px;
     height: 36px;
@@ -693,12 +743,14 @@ body {
     align-items: center;
     justify-content: center;
     z-index: 210;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.3);
     transition: var(--transition-smooth);
 }
 
 .modal-close:hover {
-    background: rgba(255,255,255,0.15);
-    transform: rotate(90deg);
+    background: rgba(255,255,255,0.35);
+    border-color: rgba(255,255,255,0.6);
+    transform: rotate(90deg) scale(1.05);
 }
 
 /* Button UI */
