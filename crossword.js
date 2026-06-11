@@ -391,20 +391,10 @@ function handleKeydown(e) {
     }
   }
 
-  // Overwrite existing character if a letter is typed
+  // Clear existing character if a letter is typed so browser can overwrite it naturally
   if (e.key.length === 1 && /^[a-zA-Z]$/.test(e.key) && !e.ctrlKey && !e.metaKey && !e.altKey) {
-    e.preventDefault();
-    e.target.value = e.key.toUpperCase();
-    
-    // Clear correct/incorrect states on the parent grid-cell
-    const cellContainer = e.target.parentElement;
-    if (cellContainer) {
-      cellContainer.classList.remove("cell-correct", "cell-incorrect");
-    }
-    
-    playKeypressSound();
-    updateProgress();
-    moveFocusNext(row, col);
+    e.target.value = "";
+    // Let browser insert character and trigger 'input' event naturally
     return;
   }
 
