@@ -743,7 +743,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 btnHeaderCrossword.style.display = 'flex';
             }
 
-            alert(`Room placements locked in successfully! Score: ${data.score}%. Proceeding to Part 2: Memory Crossword.`);
+            alert("Solve the crossword to get the characters of Sam's computer password");
             switchMode('crossword');
 
         } catch (err) {

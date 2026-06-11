@@ -633,6 +633,7 @@ async function validateReconstruction() {
 
       // Open success dossier popup
       setTimeout(() => {
+        alert("Unscramble the letters to obtain the password of Sam's computer present in room of age 15");
         const modal = document.getElementById("success-overlay");
         modal.style.display = "flex";
       }, 600);
