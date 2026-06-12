@@ -196,6 +196,15 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 1000);
     }
 
+    window.stopGameTimer = function() {
+        if (timerInterval) {
+            clearInterval(timerInterval);
+            timerInterval = null;
+        }
+        gameStarted = false;
+        console.log("Game timer stopped.");
+    };
+
     function showFullscreenOS() {
         const fsContainer = document.getElementById('fullscreen-os-container');
         const fsIframe = document.getElementById('fullscreen-os-iframe');

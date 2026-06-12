@@ -300,6 +300,9 @@
             });
 
             async function submitFinalTime() {
+                if (parent && parent.window && typeof parent.window.stopGameTimer === 'function') {
+                    parent.window.stopGameTimer();
+                }
                 try {
                     const token = parent && parent.window && parent.window.gameState && parent.window.gameState.sessionToken;
                     if (!token) {
