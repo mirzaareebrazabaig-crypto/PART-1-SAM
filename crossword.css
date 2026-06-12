@@ -661,14 +661,14 @@ body.crossword-mode-active .desk-light {
   outline: none;
 }
 
-/* Prevent native selection blue highlight on input text */
+/* Custom selection style to ensure text selection is visually highlighted */
 .cell-input::selection {
-  background: transparent;
-  color: #1c1815;
+  background: rgba(244, 208, 63, 0.4) !important;
+  color: #1c1815 !important;
 }
 .cell-input::-moz-selection {
-  background: transparent;
-  color: #1c1815;
+  background: rgba(244, 208, 63, 0.4) !important;
+  color: #1c1815 !important;
 }
 .cell-input:disabled {
   opacity: 1;
