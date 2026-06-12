@@ -242,7 +242,11 @@ function setupEventListeners() {
       playFocusSound();
 
       // Auto-select text on focus to allow easy typing overwrite
-      setTimeout(() => e.target.select(), 10);
+      setTimeout(() => {
+        if (document.activeElement === e.target) {
+          e.target.select();
+        }
+      }, 10);
     });
 
     // Keydown handler (for arrows, backspace, and navigation)
@@ -289,7 +293,7 @@ function focusCell(row, col, dir) {
   const cellInput = document.getElementById(`cell-${row}-${col}`);
   if (cellInput) {
     activeDirection = dir;
-    cellInput.focus();
+    cellInput.focus({ preventScroll: true });
     highlightWord(row, col, dir);
   }
 }
@@ -438,7 +442,7 @@ function handleKeydown(e) {
       e.preventDefault();
       const nextInput = getNextNonReadOnlyInput(row, col);
       if (nextInput) {
-        nextInput.focus();
+        nextInput.focus({ preventScroll: true });
         nextInput.value = e.key.toUpperCase();
         const nextRow = parseInt(nextInput.dataset.row);
         const nextCol = parseInt(nextInput.dataset.col);
@@ -501,7 +505,7 @@ function navigateGrid(row, col) {
   if (row >= 0 && row < GRID_ROWS && col >= 0 && col < GRID_COLS) {
     const nextInput = document.getElementById(`cell-${row}-${col}`);
     if (nextInput) {
-      nextInput.focus();
+      nextInput.focus({ preventScroll: true });
     }
   }
 }
@@ -509,7 +513,7 @@ function navigateGrid(row, col) {
 function moveFocusNext(row, col) {
   const nextInput = getNextNonReadOnlyInput(row, col);
   if (nextInput) {
-    nextInput.focus();
+    nextInput.focus({ preventScroll: true });
   }
 }
 
@@ -522,7 +526,7 @@ function moveFocusPrevious(row, col, clearPrev = true) {
         prevInput.parentElement.classList.remove("cell-correct", "cell-incorrect");
       }
     }
-    prevInput.focus();
+    prevInput.focus({ preventScroll: true });
     updateProgress();
   }
 }
