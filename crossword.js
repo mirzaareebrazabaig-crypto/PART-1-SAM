@@ -160,6 +160,10 @@ function renderGrid() {
         inputEl.setAttribute("data-row", r);
         inputEl.setAttribute("data-col", c);
         inputEl.setAttribute("aria-label", `Cell at Row ${r + 1}, Column ${c + 1}`);
+        inputEl.setAttribute("autocomplete", "off");
+        inputEl.setAttribute("autocorrect", "off");
+        inputEl.setAttribute("autocapitalize", "none");
+        inputEl.setAttribute("spellcheck", "false");
 
         // Handle prefilled hint cells
         const cellKey = `${r}_${c}`;
